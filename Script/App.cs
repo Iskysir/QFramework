@@ -27,16 +27,21 @@ public class App : QMonoSingleton<App>
 		Application.targetFrameRate = 60;
 	}
 		
-    void Start()
+	void  Start()
     {
-//		CoroutineMgr.Instance ().StartCoroutine (ApplicationDidFinishLaunching ());
-    }
+		CoroutineMgr.Instance ().StartCoroutine (ApplicationDidFinishLaunching());
+	}
 
 	IEnumerator ApplicationDidFinishLaunching()
 	{
-		// 这个GameManager需要自己实现
-//		yield return GameManager.Instance ().Init ();
-//		yield return GameManager.Instance ().Launch ();
+		// 做一些配置
+		Setting.Load();
+		Logger.Instance ();
+
+		yield return GameManager.Instance ().Init ();
+
+		yield return GameManager.Instance ().Launch ();
+
 		yield return null;
 	}
 
@@ -52,8 +57,6 @@ public class App : QMonoSingleton<App>
 		if (this.onFixedUpdate != null)
 			this.onFixedUpdate ();
 
-		// 每10帧调用一次
-		if(Time.frameCount % 10 == 0) { System.GC.Collect(); }
 	}
 
 	void LatedUpdate()

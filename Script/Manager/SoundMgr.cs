@@ -150,6 +150,14 @@ namespace QFramework {
 			musicClips [id] = obj as AudioClip;
 		}
 
+		public void LoadSoundSync(string path,int id)
+		{
+			var obj = Resources.Load (path);
+
+			clips[id] = obj as AudioClip;
+			playersForClipId[id][0].clip = clips[id];
+		}
+
 		public void StopMusic()
 		{
 			musicPlayer.Stop ();

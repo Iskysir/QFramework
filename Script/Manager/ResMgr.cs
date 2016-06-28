@@ -13,8 +13,6 @@ namespace QFramework {
 			QPrint.FrameworkWarn ("Prefab/UI/" + uiName);
 			return Resources.Load<GameObject>("Prefab/UI/" + uiName);
 		}
-			
-
 
 		// 正在加载的资源映射
 		private Dictionary<string, IResLoader> loadingResDict = null;
@@ -54,6 +52,7 @@ namespace QFramework {
 		/// <returns></returns>
 		public IEnumerator Init()
 		{
+			yield return null;
 			#if ASSETBUNDLE
 			WWW www = new WWW(AssetBundlePath + "AssetBundles");
 			yield return www;
