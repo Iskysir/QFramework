@@ -33,17 +33,17 @@ namespace QFramework {
 		/// </summary>
 		private ResMgr()
 		{
-//			#if UNITY_ANDROID
-//			LocalPath.AssetBundlePath = Application.streamingAssetsPath + "/AssetBundles/";
-//			#else
-//			LocalPath.AssetBundlePath = "file://" + Application.streamingAssetsPath + "/AssetBundles/";
-//			#endif
-//			this.loadedAssetBundleLoaderDict = new Dictionary<string, AssetBundleLoader>();
-//			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
-//			this.loadingResDict = new Dictionary<string, IResLoader>();
-//			this.loadedResList = new List<string>(20);
-//			App.Instance().onUpdate += Update;
-//			App.Instance().onDestroy += OnDestroy;
+			#if UNITY_ANDROID
+			LocalPath.AssetBundlePath = Application.streamingAssetsPath + "/AssetBundles/";
+			#else
+			LocalPath.AssetBundlePath = "file://" + Application.streamingAssetsPath + "/AssetBundles/";
+			#endif
+			this.loadedAssetBundleLoaderDict = new Dictionary<string, AssetBundleLoader>();
+			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
+			this.loadingResDict = new Dictionary<string, IResLoader>();
+			this.loadedResList = new List<string>(20);
+			App.Instance().onUpdate += Update;
+			App.Instance().onDestroy += OnDestroy;
 		}
 
 		/// <summary>

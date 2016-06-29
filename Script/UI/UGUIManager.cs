@@ -15,13 +15,30 @@ public enum CanvasLevel
 	MainCamera,
 }
 
-public class UGUIManager : QMonoSingleton<UGUIManager>{
+
+// 可以做成自动从 Resource中加载的
+public class UGUIManager : QMonoSingleton<UGUIManager>{ 
+
+	/// <summary>
+	/// 初始化
+	/// </summary>
+	public static void Init() {
+		if (GameObject.Find ("UGUIManager")) {
+		
+		} else if (null == mInstance){
+			GameObject.Instantiate (Resources.Load ("UGUIManager"));
+		}
+			
+		UGUIManager.Instance ();
+	}
+
 
 	void Awake()
 	{
 		mInstance = this;
 		DontDestroyOnLoad (this);
 	}
+
 
 	[SerializeField]
 	Dictionary<string,UILayer> mAllLayers = new Dictionary<string, UILayer> ();
@@ -100,6 +117,10 @@ public class UGUIManager : QMonoSingleton<UGUIManager>{
 	}
 
 
+	/// <summary>
+	/// 显示UI层
+	/// </summary>
+	/// <param name="layerName">Layer name.</param>
 	public void ShowLayer(string layerName)
 	{
 		if (mAllLayers.ContainsKey(layerName))
@@ -109,6 +130,10 @@ public class UGUIManager : QMonoSingleton<UGUIManager>{
 	}
 
 
+	/// <summary>
+	/// 隐藏UI层
+	/// </summary>
+	/// <param name="layerName">Layer name.</param>
 	public void HideLayer(string layerName)
 	{
 		if (mAllLayers.ContainsKey (layerName)) 
@@ -118,6 +143,9 @@ public class UGUIManager : QMonoSingleton<UGUIManager>{
 	}
 
 
+	/// <summary>
+	/// 删除所有UI层
+	/// </summary>
 	public void DeleteAllLayer()
 	{
 		foreach (var layer in mAllLayers) 
@@ -129,6 +157,9 @@ public class UGUIManager : QMonoSingleton<UGUIManager>{
 		mAllLayers.Clear ();
 	}
 
+
+	/// <summary>
+	/// 获取所有UI层
 	public T GetLayer<T>(string layerName)
 	{
 		if (mAllLayers.ContainsKey (layerName)) 
