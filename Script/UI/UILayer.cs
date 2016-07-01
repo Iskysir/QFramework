@@ -20,7 +20,7 @@ namespace QFramework.UI {
 		/// </summary>
 		protected virtual void OnEnter(object uiData)
 		{
-			Debug.LogWarning ("On Enter");
+			Debug.LogWarning ("On Enter:" + name);
 		}
 
 
@@ -35,7 +35,7 @@ namespace QFramework.UI {
 		protected virtual void OnShow()
 		{
 			gameObject.SetActive (true);
-			Debug.LogWarning ("On Show");
+			Debug.LogWarning ("On Show:" + name);
 
 		}
 
@@ -51,7 +51,7 @@ namespace QFramework.UI {
 		protected virtual void OnHide()
 		{
 			gameObject.SetActive (false);
-			Debug.LogWarning ("On Hide");
+			Debug.LogWarning ("On Hide:" + name);
 		}
 
 		public void Exit()
@@ -64,7 +64,7 @@ namespace QFramework.UI {
 		/// </summary>
 		protected virtual void OnExit()
 		{
-			Debug.LogWarning ("On Exit");
+			Debug.LogWarning ("On Exit:" + name);
 		}
 
 

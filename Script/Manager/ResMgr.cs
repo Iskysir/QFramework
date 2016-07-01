@@ -10,8 +10,7 @@ namespace QFramework {
 
 		public GameObject LoadUIPrefabSync(string uiName)
 		{
-			QPrint.FrameworkWarn ("Prefab/UI/" + uiName);
-			return Resources.Load<GameObject>("Prefab/UI/" + uiName);
+			return Resources.Load<GameObject>("UIPrefab/" + uiName);
 		}
 
 		// 正在加载的资源映射
