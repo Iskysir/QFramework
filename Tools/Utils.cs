@@ -132,18 +132,7 @@ public class Utils : MonoBehaviour
 	//
 
 	//    check camera is open
-	public static bool CheckCameraOpen()
-	{
 
-		#if UNITY_IOS && !UNITY_EDITOR
-		if (PTUniInterface.HasCameraPermission() == false)
-		{
-		PTUniInterface.GotoCameraPermissionSettingView (LocalizeText.GetString(TextContent.CameraPermission),LocalizeText.GetString(TextContent.GrantAccess),LocalizeText.GetString(TextContent.NotGrantAccess));
-		return false;
-		}
-		#endif
-		return true;
-	}
 
 	/*
 	public static void CheckMicOpen(){
