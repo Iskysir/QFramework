@@ -9,7 +9,7 @@ using QFramework;
 /// <summary>
 /// 固定不变的配置,比如策划表,剧情表之类的。
 /// </summary>
-public class ConfigMgr : QSingleton<ConfigMgr>,IMgr
+public class ConfigMgr
 {
     private Dictionary<string, byte[]> configDict = null;
 

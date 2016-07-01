@@ -4,6 +4,7 @@
 /// 需要使用Unity生命周期的单例模式
 /// </summary>
 namespace QFramework {
+	
 	public abstract class QMonoSingleton<T> : MonoBehaviour where T : QMonoSingleton<T>
 	{
 		protected static T mInstance = null;

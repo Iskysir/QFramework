@@ -47,9 +47,9 @@ public class SceneMgr : QSingleton<SceneMgr>,IMgr
         this.curUpdateProgressCallback = loadSceneUpdateProgressCallback;
 
         // 4.释放中间资源
-        ResMgr.Instance().Unload();
+		QFramework.ResMgr.Instance().Unload();
         // 1.加载Loading场景
-        ResMgr.Instance().LoadScene(loadingSceneName, false, OnLoadingSceneDone, null);
+		QFramework.ResMgr.Instance().LoadScene(loadingSceneName, false, OnLoadingSceneDone, null);
     }
 
     /// <summary>
@@ -83,13 +83,13 @@ public class SceneMgr : QSingleton<SceneMgr>,IMgr
         
         // 2.加载主场景
         this.curTotalProgress = 50;
-        ResMgr.Instance().LoadScene(this.curSceneName, true, OnLoadSceneDone, OnLoadSceneUpdateProgress);
+		QFramework.ResMgr.Instance().LoadScene(this.curSceneName, true, OnLoadSceneDone, OnLoadSceneUpdateProgress);
         // 3.加载逻辑资源
         if (this.curLogicResNames != null && this.curLogicResNames.Length > 0)
         {
             this.curTotalProgress += this.curLogicResNames.Length;
             for (int i = 0; i < this.curLogicResNames.Length; ++i)
-                ResMgr.Instance().LoadRes(this.curLogicResNames[i], OnLoadLogicResDone);
+				QFramework.ResMgr.Instance().LoadRes(this.curLogicResNames[i], OnLoadLogicResDone);
         }
     }
 
@@ -152,7 +152,7 @@ public class SceneMgr : QSingleton<SceneMgr>,IMgr
     /// <returns></returns>
     IEnumerator CleanScene()
     {
-        ResMgr.Instance().Unload();
+		QFramework.ResMgr.Instance().Unload();
         this.curLogicResObjDict.Clear();
         this.curLogicResObjDict = null;
         Debug.LogWarning("Unload in SceneMgr");

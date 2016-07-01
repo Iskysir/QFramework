@@ -5,7 +5,7 @@ using QFramework;
 
 // 资源管理器，封装开发模式和发布模式
 namespace QFramework {
-	public class ResMgr : QSingleton<ResMgr>,IMgr
+	public class ResMgr : QMonoSingleton<ResMgr>,IMgr
 	{
 
 		public GameObject LoadUIPrefabSync(string uiName)

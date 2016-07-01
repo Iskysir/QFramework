@@ -66,7 +66,7 @@ public class UGUIManager : QMonoSingleton<UGUIManager>{
 
 
 		} else {
-			GameObject prefab = ResMgr.Instance ().LoadUIPrefabSync (layerName);
+			GameObject prefab = QFramework.ResMgr.Instance ().LoadUIPrefabSync (layerName);
 
 			GameObject uiLayer = Instantiate (prefab);
 			switch (level) {

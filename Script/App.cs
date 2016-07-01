@@ -8,6 +8,7 @@ using QFramework;
 public class App : QMonoSingleton<App>
 {
 
+	private App() {}
 
 	void Awake()
 	{
@@ -43,7 +44,7 @@ public class App : QMonoSingleton<App>
 
 
 		// 测试资源加载
-		ResMgr.Instance ().LoadRes ("TestRes",delegate(string resName, Object resObj) {
+		QFramework.ResMgr.Instance ().LoadRes ("TestRes",delegate(string resName, Object resObj) {
 		
 			if (null != resObj) {
 				GameObject.Instantiate(resObj);
