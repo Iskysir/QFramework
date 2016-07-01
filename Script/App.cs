@@ -40,17 +40,29 @@ public class App : QMonoSingleton<App>
 
 		yield return GameManager.Instance ().Init ();
 
-		yield return GameManager.Instance ().Launch ();
 
+		// 进入测试逻辑
+		if (GetComponent<AppConfig> ().mode == AppMode.Developing) {
 
-		// 测试资源加载
-		QFramework.ResMgr.Instance ().LoadRes ("TestRes",delegate(string resName, Object resObj) {
+			// 测试资源加载
+			QFramework.ResMgr.Instance ().LoadRes ("TestRes",delegate(string resName, Object resObj) {
+
+				if (null != resObj) {
+					GameObject.Instantiate(resObj);
+				}
+
+			});
 		
-			if (null != resObj) {
-				GameObject.Instantiate(resObj);
-			}
+			yield return GetComponent<ITestEntry> ().Launch ();
 
-		});
+		// 进入正常游戏逻辑
+		} else {
+			yield return GameManager.Instance ().Launch ();
+
+		}
+
+
+
 
 		yield return null;
 	}
