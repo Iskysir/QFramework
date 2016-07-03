@@ -16,7 +16,7 @@ namespace QFramework {
 		// 显示帧率
 		private int fps = 0;
 
-		public FPSCounter(Console console)
+		public FPSCounter(QConsole console)
 		{
 			console.onUpdateCallback += Update;
 			console.onGUICallback += OnGUI;

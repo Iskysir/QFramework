@@ -27,7 +27,7 @@ namespace QFramework {
 		private int w = 0;
 		private int h = 0;
 
-		public MemoryDetector(Console console)
+		public MemoryDetector(QConsole console)
 		{
 			this.x = Screen.width - 200;
 			this.y = 60;

@@ -7,7 +7,7 @@ namespace QFramework {
 	/// 控制台GUI输出类
 	/// 包括FPS，内存使用情况，日志GUI输出
 	/// </summary>
-	public class Console : QSingleton<Console>
+	public class QConsole : QSingleton<QConsole>
 	{
 		/// <summary>
 		/// Update回调
@@ -30,7 +30,7 @@ namespace QFramework {
 		private MemoryDetector memoryDetector = null;
 		private bool showGUI = false;
 
-		private Console()
+		private QConsole()
 		{
 			this.fpsCounter = new QFramework.FPSCounter(this);
 			this.memoryDetector = new MemoryDetector(this);
