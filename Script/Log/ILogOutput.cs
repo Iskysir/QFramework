@@ -12,7 +12,7 @@ public interface ILogOutput
     /// 输出日志数据
     /// </summary>
     /// <param name="logData">日志数据</param>
-    void Log(Logger.LogData logData);
+    void Log(QLog.LogData logData);
     /// <summary>
     /// 关闭
     /// </summary>

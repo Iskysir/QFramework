@@ -6,7 +6,7 @@ using UnityEngine;
 //using SLua;
 
 //[CustomLuaClass]
-public static class Setting
+public static class QSetting
 {
     public static string DevicePersistentPath = null;
     static string SettingPath = "Settings";
@@ -26,7 +26,7 @@ public static class Setting
         settings = new Dictionary<string, string>();
         // 加载配置
         string settingPath = string.Format("{0}/{1}/{2}",
-            DevicePersistentPath, SettingPath, "setting.txt");
+            DevicePersistentPath, SettingPath, "QSetting.txt");
         if (!File.Exists(settingPath))
             return;
         // 解析配置
@@ -36,7 +36,7 @@ public static class Setting
         {
             string line = lines[i];
             string[] kv = line.Split('=');
-            Logger.Assert(kv.Length == 2, "Error Setting Format : " + line);
+            QLog.Assert(kv.Length == 2, "Error Setting Format : " + line);
             string k = kv[0].Trim();
             string v = kv[1].Trim();
             settings[k] = v;
@@ -47,7 +47,7 @@ public static class Setting
     {
         // 保存配置
         string settingPath = string.Format("{0}/{1}/{2}",
-            DevicePersistentPath, SettingPath, "setting.txt");
+		DevicePersistentPath, SettingPath, "QSetting.txt");
         string settingDir = Path.GetDirectoryName(settingPath);
         if (!Directory.Exists(settingDir))
             Directory.CreateDirectory(settingDir);

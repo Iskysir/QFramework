@@ -16,7 +16,7 @@ namespace QFramework {
     	public static Version CreateVersion(string verStr)
     	{
         	string[] versions = verStr.Split('.');
-        	Logger.Assert(versions.Length == 4, "Error Version Format : " + verStr);
+        	QLog.Assert(versions.Length == 4, "Error Version Format : " + verStr);
         	Version version = new Version
         	{
             	BigVersion = int.Parse(versions[0]),

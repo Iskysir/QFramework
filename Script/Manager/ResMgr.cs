@@ -130,7 +130,7 @@ namespace QFramework {
 		/// <returns>依赖资源名</returns>
 		public string[] GetDependences(string res)
 		{
-			Logger.Assert(!string.IsNullOrEmpty(res), "GetDependeces res is NULL");
+			QLog.Assert(!string.IsNullOrEmpty(res), "GetDependeces res is NULL");
 			return this.manifest.GetAllDependencies(res.ToLower());
 		}
 
@@ -252,8 +252,8 @@ namespace QFramework {
 		{
 			if (APP_CONFIG.DEBUG) {
 
-				Logger.Assert ((loader != null), "AddLoadingLoader loader is NULL");
-				Logger.Assert (!this.loadingResDict.ContainsKey (loader.ResName), string.Format ("Already Loading {0}", loader.ResName));
+				QLog.Assert ((loader != null), "AddLoadingLoader loader is NULL");
+				QLog.Assert (!this.loadingResDict.ContainsKey (loader.ResName), string.Format ("Already Loading {0}", loader.ResName));
 			}
 			//Debug.Log(string.Format("{0} start loading at {1}", loader.ResName, Time.frameCount));
 			this.loadingResDict[loader.ResName] = loader;

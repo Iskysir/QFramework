@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using SLua;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,7 +7,7 @@ using QFramework;
 /// <summary>
 /// 封装日志模块
 /// </summary>
-public class Logger : QSingleton<Logger>
+public class QLog : QSingleton<QLog>
 {
     /// <summary>
     /// 日志等级，为不同输出配置用
@@ -71,7 +70,7 @@ public class Logger : QSingleton<Logger>
         Debug.LogError(info);
     }
 
-    private Logger()
+    private QLog()
     {
         Application.logMessageReceived += LogCallback;
         Application.logMessageReceivedThreaded += LogMultiThreadCallback;
@@ -90,8 +89,7 @@ public class Logger : QSingleton<Logger>
         this.mainThreadID = Thread.CurrentThread.ManagedThreadId;
         this.logOutputList = new List<ILogOutput>
         {
-//            new UILogOutput(),
-            new FileLogOutput(),
+            new QFileLogOutput(),
         };
 
         App.Instance().onGUI += OnGUI;

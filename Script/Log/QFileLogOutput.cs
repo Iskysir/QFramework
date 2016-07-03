@@ -8,27 +8,27 @@ using UnityEngine;
 /// <summary>
 /// 文本日志输出
 /// </summary>
-public class FileLogOutput : ILogOutput
+public class QFileLogOutput : ILogOutput
 {
     static string LogPath = "Log";
 
-    private Queue<Logger.LogData> mWritingLogQueue = null;
-    private Queue<Logger.LogData> mWaitingLogQueue = null;
+    private Queue<QLog.LogData> mWritingLogQueue = null;
+    private Queue<QLog.LogData> mWaitingLogQueue = null;
     private object mLogLock = null;
     private Thread mFileLogThread = null;
     private bool mIsRunning = false;
     private StreamWriter mLogWriter = null;
 
-    public FileLogOutput()
+    public QFileLogOutput()
     {
         App.Instance().onApplicationQuit += Close;
-        this.mWritingLogQueue = new Queue<Logger.LogData>();
-        this.mWaitingLogQueue = new Queue<Logger.LogData>();
+        this.mWritingLogQueue = new Queue<QLog.LogData>();
+        this.mWaitingLogQueue = new Queue<QLog.LogData>();
         this.mLogLock = new object();
         System.DateTime now = System.DateTime.Now;
-        string logName = string.Format("{0}{1}{2}{3}{4}{5}",
+        string logName = string.Format("Q{0}{1}{2}{3}{4}{5}",
             now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-        string logPath = string.Format("{0}/{1}/{2}.log", Setting.DevicePersistentPath, LogPath, logName);
+        string logPath = string.Format("{0}/{1}/{2}.log", QSetting.DevicePersistentPath, LogPath, logName);
         if (File.Exists(logPath))
             File.Delete(logPath);
         string logDir = Path.GetDirectoryName(logPath);
@@ -51,7 +51,7 @@ public class FileLogOutput : ILogOutput
                 {
                     while (this.mWaitingLogQueue.Count == 0)
                         Monitor.Wait(this.mLogLock);
-                    Queue<Logger.LogData> tmpQueue = this.mWritingLogQueue;
+                    Queue<QLog.LogData> tmpQueue = this.mWritingLogQueue;
                     this.mWritingLogQueue = this.mWaitingLogQueue;
                     this.mWaitingLogQueue = tmpQueue;
                 }
@@ -60,8 +60,8 @@ public class FileLogOutput : ILogOutput
             {
                 while (this.mWritingLogQueue.Count > 0)
                 {
-                    Logger.LogData log = this.mWritingLogQueue.Dequeue();
-                    if (log.Level == Logger.LogLevel.ERROR)
+                    QLog.LogData log = this.mWritingLogQueue.Dequeue();
+                    if (log.Level == QLog.LogLevel.ERROR)
                     {
                         this.mLogWriter.WriteLine("---------------------------------------------------------------------------------------------------------------------");
                         this.mLogWriter.WriteLine(log.Log);
@@ -77,7 +77,7 @@ public class FileLogOutput : ILogOutput
         }
     }
 
-    public void Log(Logger.LogData logData)
+    public void Log(QLog.LogData logData)
     {
         lock (this.mLogLock)
         {

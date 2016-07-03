@@ -33,10 +33,10 @@ public class App : QMonoSingleton<App>
 	{
 		
 		// 配置文件加载 类似PlayerPrefs
-		Setting.Load();
+		QSetting.Load();
 
 		// 日志输出 
-		Logger.Instance ();
+		QLog.Instance ();
 
 		yield return GameManager.Instance ().Init ();
 

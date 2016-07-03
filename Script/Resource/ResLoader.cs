@@ -155,7 +155,7 @@ namespace QFramework {
 
 		public virtual void Unload()
 		{
-			Logger.Assert(this.assetbundle != null, "Unload a NOT loaded assetbundle");
+			QLog.Assert(this.assetbundle != null, "Unload a NOT loaded assetbundle");
 			this.assetbundle.Unload(false);
 		}
 	}
