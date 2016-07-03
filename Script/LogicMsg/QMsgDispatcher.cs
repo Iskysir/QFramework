@@ -38,7 +38,6 @@ namespace QFramework {
 			}
 		}
 			
-
 		/// <summary>
 		/// 每个消息名字维护一组消息捕捉器。
 		/// </summary>
@@ -62,8 +61,7 @@ namespace QFramework {
 				Debug.LogError ("RegisterMsg:" + msgName + " callback is Null");
 				return;
 			}
-
-
+				
 			// 添加消息通道
 			if (!mMsgHandlerDict.ContainsKey (channel)) {
 				mMsgHandlerDict [channel] = new Dictionary<string, List<QMsgHandler>> ();
@@ -89,10 +87,7 @@ namespace QFramework {
 			// 再看下这里
 			handlers.Add (new QMsgHandler (self, callback));
 		}
-
-
-
-
+			
 		/// <summary>
 		/// 其实注销消息只需要Object和Go就足够了 不需要callback
 		/// </summary>
@@ -101,8 +96,7 @@ namespace QFramework {
 			if (CheckStrNullOrEmpty (msgName)) {
 				return;
 			}
-
-
+				
 			if (!mMsgHandlerDict.ContainsKey (channel)) {
 				Debug.LogError ("Channel:" + channel.ToString () + " doesn't exist");
 				return;			
@@ -121,8 +115,7 @@ namespace QFramework {
 				}
 			}
 		}
-
-
+			
 		static bool CheckStrNullOrEmpty(string str)
 		{
 			if (string.IsNullOrEmpty (str)) {
@@ -156,8 +149,7 @@ namespace QFramework {
 				Debug.LogError ("Channel:" + QMsgChannel.Global.ToString() + " doesn't exist");
 				return;
 			}
-
-
+				
 			// 略过,不用看
 			if (!mMsgHandlerDict[QMsgChannel.Global].ContainsKey(msgName)){
 				Debug.LogError("SendMsg is UnRegister");
@@ -194,8 +186,7 @@ namespace QFramework {
 				Debug.LogError ("Channel:" +channel.ToString() + " doesn't exist");
 				return;
 			}
-
-
+				
 			// 略过,不用看
 			if (!mMsgHandlerDict[channel].ContainsKey(msgName)){
 				Debug.LogWarning("SendMsg is UnRegister");
@@ -221,18 +212,13 @@ namespace QFramework {
 				}
 			}
 		}
-
-
+			
 		#region 启用 使用RegisterGlobalMsg
 		public static void RegisterLogicMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName)||CheckDelegateNull(callback)) {
 				return;
 			}
-				
-
-
-
 
 			// 添加消息通道
 			if (!mMsgHandlerDict.ContainsKey (channel)) {
@@ -304,8 +290,8 @@ namespace QFramework {
 
 
 
-		#region 弃用 请使用UnRegisterGlobalMsg
-		public static void UnRegisterMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
+		#region 弃用 请使用UnRegisterMsg
+		public static void UnRegisterLogicMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName) || CheckDelegateNull(callback)) {
 				return;

@@ -26,7 +26,7 @@ namespace QFramework {
 				{
 					string instanceName = typeof(T).Name;
 
-					Debug.LogError ("Instance Name: " + instanceName); 
+					Debug.Log ("Instance Name: " + instanceName); 
 
 					GameObject instanceGO = GameObject.Find(instanceName);
 
@@ -36,12 +36,12 @@ namespace QFramework {
 
 					DontDestroyOnLoad(instanceGO);	
 
-					Debug.LogError ("Add New Singleton " + mInstance.name + " in Game!");
+					Debug.Log ("Add New Singleton " + mInstance.name + " in Game!");
 
 				}
 				else
 				{
-					Debug.LogError ("Already exist: " + mInstance.name);
+					Debug.LogWarning ("Already exist: " + mInstance.name);
 				}
 			}
 
