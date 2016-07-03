@@ -32,13 +32,13 @@ namespace QFramework {
 			watch.Start ();
 			TextAsset textAsset = Resources.Load(PATH + name, typeof(TextAsset)) as TextAsset;
 			if (APP_CONFIG.DEBUG) {
-				QPrint.Warn (textAsset.name);
+				Debug.LogWarning (textAsset.name);
 			}
 			mCachedTables.Add (textAsset.name, new CSVTable (textAsset.text));
 			watch.Stop ();
 
 			if (APP_CONFIG.DEBUG) {
-				QPrint.Warn ("time:" + watch.ElapsedMilliseconds);
+				Debug.LogWarning ("time:" + watch.ElapsedMilliseconds);
 			}
 			yield return 0;
 		}

@@ -10,6 +10,6 @@ public class Sender : MonoBehaviour,IMsgSender {
 
 	// Update is called once per frame
 	void Update () {
-		this.SendLogicMsg ("Receiver Show Sth","你好","世界");
+		this.SendGlobalMsg ("Receiver Show Sth","你好","世界");
 	}
 }

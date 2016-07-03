@@ -23,7 +23,7 @@ namespace QFramework
 			{
 				if (applicationIsQuitting)
 				{ 
-					QPrint.FrameworkError ("[Singleton] Instance '" + typeof(T) +
+					Debug.LogError ("[Singleton] Instance '" + typeof(T) +
 					"' already destroyed on application quit." +
 					" Won't create again - returning null.");
 					return null;
@@ -37,7 +37,7 @@ namespace QFramework
 
 						if (FindObjectsOfType(typeof(T)).Length > 1)
 						{
-							QPrint.FrameworkError ("[Singleton] Something went really wrong " +
+							Debug.LogError ("[Singleton] Something went really wrong " +
 								" - there should never be more than 1 singleton!" +
 								" Reopening the scene might fix it.");
 							return mInstance;
@@ -51,13 +51,13 @@ namespace QFramework
 
 							DontDestroyOnLoad(singleton);
 
-							QPrint.FrameworkError ("[Singleton] An instance of " + typeof(T) +
+							Debug.LogError ("[Singleton] An instance of " + typeof(T) +
 								" is needed in the scene, so '" + singleton +
 								"' was created with DontDestroyOnLoad.");
 						}
 						else
 						{
-							QPrint.FrameworkError ("[Singleton] Using instance already created: " +
+							Debug.LogError ("[Singleton] Using instance already created: " +
 								mInstance.gameObject.name);
 						}
 					}

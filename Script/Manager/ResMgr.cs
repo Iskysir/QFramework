@@ -238,7 +238,7 @@ namespace QFramework {
 		IEnumerator InternalUnloadAsync()
 		{
 			if (APP_CONFIG.DEBUG) {
-				QPrint.FrameworkWarn ("Unload in ResMgr");
+				Debug.LogWarning ("Unload in ResMgr");
 			}
 			AsyncOperation opt = Resources.UnloadUnusedAssets();
 			yield return opt;

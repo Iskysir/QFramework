@@ -17,7 +17,7 @@ namespace QFramework {
 
 				if (FindObjectsOfType<T>().Length > 1)
 				{
-					QPrint.FrameworkError ("More than 1!");
+					Debug.LogError ("More than 1!");
 
 					return mInstance;
 				}
@@ -26,7 +26,7 @@ namespace QFramework {
 				{
 					string instanceName = typeof(T).Name;
 
-					QPrint.FrameworkLog ("Instance Name: " + instanceName); 
+					Debug.LogError ("Instance Name: " + instanceName); 
 
 					GameObject instanceGO = GameObject.Find(instanceName);
 
@@ -36,12 +36,12 @@ namespace QFramework {
 
 					DontDestroyOnLoad(instanceGO);	
 
-					QPrint.FrameworkLog ("Add New Singleton " + mInstance.name + " in Game!");
+					Debug.LogError ("Add New Singleton " + mInstance.name + " in Game!");
 
 				}
 				else
 				{
-					QPrint.FrameworkLog ("Already exist: " + mInstance.name);
+					Debug.LogError ("Already exist: " + mInstance.name);
 				}
 			}
 

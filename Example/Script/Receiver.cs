@@ -21,7 +21,7 @@ public class Receiver : MonoBehaviour,IMsgReceiver {
 	void ReceiverMsg(params object[] paramList)
 	{
 		foreach (var sth in paramList) {
-			QPrint.Warn (sth.ToString());
+			Debug.LogWarning (sth.ToString());
 		}
 	}
 }

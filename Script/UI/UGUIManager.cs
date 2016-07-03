@@ -56,7 +56,7 @@ namespace QFramework.UI {
 
 			if (mAllLayers.ContainsKey (layerName)) {
 
-				QPrint.Warn (layerName + ": already exist");
+				Debug.LogWarning (layerName + ": already exist");
 
 				mAllLayers [layerName].transform.localPosition = Vector3.zero;
 				mAllLayers [layerName].transform.localEulerAngles = Vector3.zero;
