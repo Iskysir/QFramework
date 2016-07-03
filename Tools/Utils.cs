@@ -48,6 +48,8 @@ public class Utils : MonoBehaviour
 	{
 		#if UNITY_IOS && !UNITY_EDITOR
 		PTUniInterface.SavePhotoToAlbum (filename, imageData, imageData.Length);
+		#else
+		File.WriteAllBytes(Application.dataPath + "/../" + filename,imageData);
 		#endif
 	}
 

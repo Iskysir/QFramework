@@ -35,15 +35,10 @@ public class FileTool {
 	public static void SaveScreenCapture(Texture2D texture)
 	{
 		byte[] imagebytes = texture.EncodeToJPG(40);//转化为png图
-// 		File.WriteAllBytes(LocalPath.SaveTexturePath, imagebytes);//存储png
-		Device.SetNoBackupFlag(LocalPath.SaveTexturePath);     //取消自动备份到icloud
-
-
 
 
 		//保存到相册
 		Utils.WriteDataAsImageToPhotosAlbum(LocalPath.SaveTexturePath, imagebytes);
 		imagebytes = null;
-
 	}
 }
