@@ -2,11 +2,20 @@
 using System.Collections;
 using QFramework;
 
+
+public enum AppMode {
+	Developing,
+	QA,
+	Release
+}
+
+
 /// <summary>
 /// 全局唯一继承于MonoBehaviour的单例类，保证其他公共模块都以App的生命周期为准
 /// </summary>
 public class App : QMonoSingleton<App>
 {
+	public AppMode mode = AppMode.Developing;
 
 	private App() {}
 
@@ -31,7 +40,6 @@ public class App : QMonoSingleton<App>
 	/// </summary>
 	IEnumerator ApplicationDidFinishLaunching()
 	{
-		
 		// 配置文件加载 类似PlayerPrefs
 		QSetting.Load();
 
@@ -40,18 +48,8 @@ public class App : QMonoSingleton<App>
 
 		yield return GameManager.Instance ().Init ();
 
-
 		// 进入测试逻辑
-		if (GetComponent<AppConfig> ().mode == AppMode.Developing) {
-
-			// 测试资源加载
-			QFramework.ResMgr.Instance ().LoadRes ("TestRes",delegate(string resName, Object resObj) {
-
-				if (null != resObj) {
-					GameObject.Instantiate(resObj);
-				}
-
-			});
+		if (App.Instance().mode == AppMode.Developing) {
 		
 			yield return GetComponent<ITestEntry> ().Launch ();
 
@@ -60,10 +58,7 @@ public class App : QMonoSingleton<App>
 			yield return GameManager.Instance ().Launch ();
 
 		}
-
-
-
-
+			
 		yield return null;
 	}
 
