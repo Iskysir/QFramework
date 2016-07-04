@@ -49,7 +49,7 @@ namespace QFramework {
 		/// 注意第一个参数,使用了C# this的扩展,
 		/// 所以只有实现IMsgReceiver的对象才能调用此方法
 		/// </summary>
-		public static void RegisterGlobalMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
+		public static void RegisterGlobalMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback)
 		{
 			// 略过
 			if (string.IsNullOrEmpty(msgName)) {
@@ -63,6 +63,51 @@ namespace QFramework {
 				return;
 			}
 				
+			// 添加消息通道
+			if (!mMsgHandlerDict.ContainsKey (QMsgChannel.Global)) {
+				mMsgHandlerDict [QMsgChannel.Global] = new Dictionary<string, List<QMsgHandler>> ();
+			}
+
+			// 略过
+			if (!mMsgHandlerDict[QMsgChannel.Global].ContainsKey (msgName)) {
+				mMsgHandlerDict[QMsgChannel.Global] [msgName] = new List<QMsgHandler> ();
+			}
+
+			// 看下这里
+			var handlers = mMsgHandlerDict [QMsgChannel.Global][msgName];
+
+			// 略过
+			// 防止重复注册
+			foreach (var handler in handlers) {
+				if (handler.receiver == self && handler.callback == callback) {
+					Debug.LogWarning ("RegisterMsg:" + msgName + " ayready Register");
+					return;
+				}
+			}
+
+			// 再看下这里
+			handlers.Add (new QMsgHandler (self, callback));
+		}
+			
+		/// <summary>
+		/// 注册消息,
+		/// 注意第一个参数,使用了C# this的扩展,
+		/// 所以只有实现IMsgReceiver的对象才能调用此方法
+		/// </summary>
+		public static void RegisterMsgByChannel(this IMsgReceiver self, QMsgChannel channel,string msgName,VoidDelegate.WithParams callback)
+		{
+			// 略过
+			if (string.IsNullOrEmpty(msgName)) {
+				Debug.LogError("RegisterMsg:" + msgName + " is Null or Empty");
+				return;
+			}
+
+			// 略过
+			if (null == callback) {
+				Debug.LogError ("RegisterMsg:" + msgName + " callback is Null");
+				return;
+			}
+
 			// 添加消息通道
 			if (!mMsgHandlerDict.ContainsKey (channel)) {
 				mMsgHandlerDict [channel] = new Dictionary<string, List<QMsgHandler>> ();
@@ -88,16 +133,45 @@ namespace QFramework {
 			// 再看下这里
 			handlers.Add (new QMsgHandler (self, callback));
 		}
-			
+
+
 		/// <summary>
 		/// 其实注销消息只需要Object和Go就足够了 不需要callback
 		/// </summary>
-		public static void UnRegisterMsg(this IMsgReceiver self,string msgName,QMsgChannel channel = QMsgChannel.Global)
+		public static void UnRegisterGlobalMsg(this IMsgReceiver self,string msgName)
 		{
 			if (CheckStrNullOrEmpty (msgName)) {
 				return;
 			}
 				
+			if (!mMsgHandlerDict.ContainsKey (QMsgChannel.Global)) {
+				Debug.LogError ("Channel:" + QMsgChannel.Global.ToString() + " doesn't exist");
+				return;			
+			}
+
+			var handlers = mMsgHandlerDict[QMsgChannel.Global] [msgName];
+
+			int handlerCount = handlers.Count;
+
+			// 删除List需要从后向前遍历
+			for (int index = handlerCount - 1; index >= 0; index--) {
+				var handler = handlers [index];
+				if (handler.receiver == self) {
+					handlers.Remove (handler);
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 其实注销消息只需要Object和Go就足够了 不需要callback
+		/// </summary>
+		public static void UnRegisterMsgByChannel(this IMsgReceiver self,QMsgChannel channel,string msgName)
+		{
+			if (CheckStrNullOrEmpty (msgName)) {
+				return;
+			}
+
 			if (!mMsgHandlerDict.ContainsKey (channel)) {
 				Debug.LogError ("Channel:" + channel.ToString () + " doesn't exist");
 				return;			
@@ -116,6 +190,7 @@ namespace QFramework {
 				}
 			}
 		}
+
 			
 		static bool CheckStrNullOrEmpty(string str)
 		{
