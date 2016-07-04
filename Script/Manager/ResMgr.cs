@@ -7,7 +7,6 @@ using QFramework;
 namespace QFramework {
 	public class ResMgr : QMonoSingleton<ResMgr>,IMgr
 	{
-
 		public GameObject LoadUIPrefabSync(string uiName)
 		{
 			return Resources.Load<GameObject>("UIPrefab/" + uiName);
@@ -113,13 +112,21 @@ namespace QFramework {
 		void OnDestroy()
 		{
 			// 卸载所有资源，避免编辑器异常
-			this.loadingResDict.Clear();
-			this.loadingResDict = null;
-			this.loadedResList.Clear();
-			this.loadedResList = null;
-			if (this.loadedAssetBundleLoaderDict != null)
-				this.loadedAssetBundleLoaderDict.Clear();
-			this.loadedAssetBundleLoaderDict = null;
+			if (null != this.loadingResDict) {
+				this.loadingResDict.Clear ();
+				this.loadingResDict = null;
+			}
+
+			if (null != this.loadedResList) {
+				this.loadedResList.Clear ();
+				this.loadedResList = null;
+			}
+				
+			if (null != this.loadedAssetBundleLoaderDict) {
+				this.loadedAssetBundleLoaderDict.Clear ();
+				this.loadedAssetBundleLoaderDict = null;
+			}
+
 			Resources.UnloadUnusedAssets();
 		}
 

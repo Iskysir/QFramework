@@ -48,6 +48,7 @@ namespace QFramework.UI {
 		[SerializeField] Transform mCanvasBottomTrans;
 		[SerializeField] Transform mCanvasTrans;
 		[SerializeField] Transform mCanvasGuideTrans;
+		[SerializeField] Camera mUICamera;
 
 		/// <summary>
 		/// 增加UI层
@@ -56,7 +57,7 @@ namespace QFramework.UI {
 
 			if (mAllLayers.ContainsKey (layerName)) {
 
-				Debug.LogWarning (layerName + ": already exist");
+                Debug.LogWarning(layerName + ": already exist");
 
 				mAllLayers [layerName].transform.localPosition = Vector3.zero;
 				mAllLayers [layerName].transform.localEulerAngles = Vector3.zero;
@@ -168,6 +169,17 @@ namespace QFramework.UI {
 			}
 			return default(T);
 		}
+
+        /// <summary>
+        /// 获取UI相机
+        /// </summary>
+        /// <returns></returns>
+        public Camera GetUICamera() 
+        {
+            return mUICamera;
+        }
 	}
+
+    
 
 }
