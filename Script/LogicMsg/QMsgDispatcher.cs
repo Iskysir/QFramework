@@ -389,6 +389,4 @@ namespace QFramework {
 			}
 		}
 	}
-
-
 }
