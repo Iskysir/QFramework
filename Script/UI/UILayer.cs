@@ -8,7 +8,6 @@ namespace QFramework.UI {
 	/// </summary>
 	public abstract class UILayer : MonoBehaviour {
 
-
 		public void Enter(object uiData)
 		{
 			gameObject.SetActive (false);
@@ -66,9 +65,5 @@ namespace QFramework.UI {
 		{
 			Debug.LogWarning ("On Exit:" + name);
 		}
-
-
-
 	}
-
 }
