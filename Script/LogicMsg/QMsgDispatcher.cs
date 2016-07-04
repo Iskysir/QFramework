@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace QFramework {
 
@@ -213,7 +214,7 @@ namespace QFramework {
 			}
 		}
 			
-		#region 启用 使用RegisterGlobalMsg
+		[Obsolete("RegisterLogicMsg已经弃用了,请使用RegisterGlobalMsg")]
 		public static void RegisterLogicMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName)||CheckDelegateNull(callback)) {
@@ -245,10 +246,9 @@ namespace QFramework {
 			// 再看下这里
 			handlers.Add (new QMsgHandler (self, callback));
 		}
-		#endregion
 
 
-		#region 弃用 使用SendGlobalMsg
+		[Obsolete("SendLogicMsg已经弃用了,请使用使用SendGlobalMsg或SendMsgByChannel")]
 		public static void SendLogicMsg(this IMsgSender sender, string msgName,params object[] paramList)
 		{
 			if (CheckStrNullOrEmpty (msgName)) {
@@ -286,11 +286,8 @@ namespace QFramework {
 				}
 			}
 		}
-		#endregion
 
-
-
-		#region 弃用 请使用UnRegisterMsg
+		[Obsolete("UnRegisterLogicMsg已经弃用了,请使用UnRegisterMsg")]
 		public static void UnRegisterLogicMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName) || CheckDelegateNull(callback)) {
@@ -316,7 +313,6 @@ namespace QFramework {
 				}
 			}
 		}
-		#endregion 
 	}
 
 
