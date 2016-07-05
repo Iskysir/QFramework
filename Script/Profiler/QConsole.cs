@@ -37,6 +37,8 @@ namespace QFramework {
 			//        this.showGUI = App.Instance().showLogOnGUI;
 			App.Instance().onUpdate += Update;
 			App.Instance().onGUI += OnGUI;
+
+			new MemoryDetector (this);
 		}
 
 		void Update()
