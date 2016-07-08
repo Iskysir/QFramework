@@ -17,7 +17,6 @@
 ```
 using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 using QFramework;
 /*
  *  1.是游戏的入口
@@ -33,17 +32,6 @@ using QFramework;
 /// </summary>
 
 public class GameManager : QSingleton<GameManager> {
-
-	/// <summary>
-	/// 各种模块控制器
-	/// </summary>
-	public StageCtrl  stageCtrl;
-	public PlayerCtrl playerCtrl;
-	public GameScene gameScene; 
-	public UICtrl uiCtrl;
-	public HomeCtrl homeCtrl;
-	public BgCtrl bgCtrl;
-	public CameraCtrl cameraCtrl;
 
 	private GameManager() {}
 
