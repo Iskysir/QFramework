@@ -71,111 +71,11 @@ public class GameManager : QSingleton<GameManager> {
 	{
 		SceneManager.Instance().EnterHomeScene();
 		yield return null;
-	}
+	}		
 
 	/// <summary>
-	/// 加载游戏资源
+	/// 退出游戏
 	/// </summary>
-	public IEnumerator LoadGameRes()
-	{
-		Debug.LogWarning ("加载游戏资源");
-		yield return null;
-	}
-
-
-	public IEnumerator GameStart()
-	{
-		Debug.LogWarning ("开始游戏");
-		yield return null;
-	}
-		
-		
-	/// <summary>
-	/// 启动游戏
-	/// </summary>
-	Coroutine coEnterHome = null;
-		
-	/// <summary>
-	/// 从Home进入游戏
-	/// </summary>
-	public IEnumerator EnterGame()
-	{
-		GAME_DATA.THEME = QMath.RandomWithParams (1, 3);
-		GameManager.Instance ().uiCtrl.gameWnd.gameProgress.ResetView ();// 重置 
-		GameManager.Instance ().bgCtrl.Idle ();
-		Time.timeScale = 1.0f;
-		if (coEnterHome != null) {
-			App.Instance ().StopCoroutine (coEnterHome);
-			coEnterHome = null;
-		}
-			
-		// 重置乱七八糟的东西
-//		uiCtrl.uiFade.FadeIn();
-		uiCtrl.ResetProp ();
-		PropModel.Instance ().InitModel ();
-
-		StageModel.Instance().Switching = true;
-
-		// 遮罩移动到中央 耗时0.5秒
-		bgCtrl.SwitchBegan(GAME_DATA.THEME,true);		
-		yield return new WaitForSeconds(0.5f);
-		StageModel.Instance().Switching = true;
-
-		GameManager.Instance ().playerCtrl.ResetPlayer ();					// 重置player
-
-		// 移动后加载资源
-		bool resLoaded = false;
-		GoManager.Instance ().LoadStagePool (GAME_DATA.THEME, delegate {
-			resLoaded = true;
-		});
-
-		// 等待资源加载完毕
-		while (!resLoaded) {
-			Debug.LogWarning (resLoaded.ToString ());
-			yield return new WaitForEndOfFrame ();
-		}
-
-		//加载完毕后开始转换
-		stageCtrl.DespawnStageAB();
-		GameModel.Instance().Theme = GAME_DATA.THEME;
-		stageCtrl.ResetLayer();
-
-		yield return App.Instance().StartCoroutine(stageCtrl.Switch(GAME_DATA.THEME));
-
-		GameModel.Instance().fsm.Start("idle");
-		GameModel.Instance().fsm.HandleEvent("start");
-		stageCtrl.BeginScroll();
-
-		uiCtrl.uiFade.FadeOut();
-
-		stageCtrl.SwitchEnded(GAME_DATA.THEME);
-
-		SoundMgr.Instance ().PlayMusic (MUSIC.GAME_BG);
-
-		yield return 0;
-	}
-
-	/// <summary>
-	/// 从Game进入Home
-	/// </summary>
-	public IEnumerator EnterHome()
-	{
-		Debug.LogWarning ("@@@@@@@@@@@@@@@");
-		SoundMgr.Instance ().PlayMusic (MUSIC.HOME_BG);
-		yield return new WaitForEndOfFrame ();
-		Time.timeScale = 0.0f;
-	}
-
-	/// <summary>
-	/// Games the restart.
-	/// </summary>
-	public void GameRestart()
-	{
-		GameManager.Instance ().stageCtrl.DespawnStageAB (); 							// 回收掉当前的关卡
-		App.Instance().StartCoroutine(EnterGame());
-	}
-		
-
 	void OnApplicationQuit()
 	{
 		DataManager.Instance().Save (); // 数据加载
