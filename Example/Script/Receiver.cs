@@ -2,6 +2,7 @@
 using System.Collections;
 
 using QFramework;
+using QFramework.Event;
 
 /// <summary>
 /// 1.接收者需要实现IMsgReceiver接口。

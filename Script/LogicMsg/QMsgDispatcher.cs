@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-namespace QFramework {
+namespace QFramework.Event {
 
 	public enum QMsgChannel {
 		Global,	// 全局
@@ -362,8 +362,8 @@ namespace QFramework {
 			}
 		}
 
-		[Obsolete("UnRegisterLogicMsg已经弃用了,请使用UnRegisterMsg")]
-		public static void UnRegisterLogicMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
+		[Obsolete("UnRegisterMsg已经弃用了,请使用UnRegisterMsg")]
+		public static void UnRegisterMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName) || CheckDelegateNull(callback)) {
 				return;
@@ -383,6 +383,33 @@ namespace QFramework {
 			for (int index = handlerCount - 1; index >= 0; index--) {
 				var handler = handlers [index];
 				if (handler.receiver == self && handler.callback == callback) {
+					handlers.Remove (handler);
+					break;
+				}
+			}
+		}
+
+
+		[Obsolete("UnRegisterMsg已经弃用了,请使用UnRegisterGlobalMsg")]
+		public static void UnRegisterMsg(this IMsgReceiver self,string msgName)
+		{
+			if (CheckStrNullOrEmpty (msgName)) {
+				return;
+			}
+
+			if (!mMsgHandlerDict.ContainsKey (QMsgChannel.Global)) {
+				Debug.LogError ("Channel:" + QMsgChannel.Global.ToString() + " doesn't exist");
+				return;			
+			}
+
+			var handlers = mMsgHandlerDict[QMsgChannel.Global] [msgName];
+
+			int handlerCount = handlers.Count;
+
+			// 删除List需要从后向前遍历
+			for (int index = handlerCount - 1; index >= 0; index--) {
+				var handler = handlers [index];
+				if (handler.receiver == self) {
 					handlers.Remove (handler);
 					break;
 				}
