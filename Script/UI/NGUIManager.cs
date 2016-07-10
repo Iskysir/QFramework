@@ -1,40 +1,33 @@
-﻿using UnityEngine;
+﻿#define NGUI
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+#if NGUI 
 namespace QFramework.UI {
-
-	public enum CanvasLevel
-	{
-		Top,
-		Middle,
-		Bottom,
-		Root,
-		MainCamera,
-	}
 		
 	//// <summary>
 	/// UGUI UI界面管理器
 	/// </summary>
-	public class UGUIManager : QMonoSingleton<UGUIManager>{ 
+	public class NGUIManager : QMonoSingleton<NGUIManager>{ 
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		public static IEnumerator Init() {
-			if (GameObject.Find ("UGUIManager")) {
+			if (GameObject.Find ("NGUIManager")) {
 
 			} else if (null == mInstance){
-				GameObject.Instantiate (Resources.Load ("UGUIManager"));
+				GameObject.Instantiate (Resources.Load ("NGUIManager"));
 			}
 
-			UGUIManager.Instance ();
+			NGUIManager.Instance ();
 
 			yield return null;
 		}
-
-
+			
 		void Awake()
 		{
 			mInstance = this;
@@ -51,11 +44,12 @@ namespace QFramework.UI {
 		[SerializeField] Transform mCanvasTrans;
 		[SerializeField] Transform mCanvasGuideTrans;
 		[SerializeField] Camera mUICamera;
+		[SerializeField] Transform mParentTrans;
 
 		/// <summary>
 		/// 增加UI层
 		/// </summary>
-		public UILayer AddLayer(string layerName,CanvasLevel level,object uiData = null) {
+		public UILayer AddLayer(string layerName,float nextZ,object uiData = null) {
 
 			if (mAllLayers.ContainsKey (layerName)) {
 
@@ -71,26 +65,7 @@ namespace QFramework.UI {
 			} else {
 				GameObject prefab = ResMgr.Instance ().LoadUIPrefabSync (layerName);
 
-				GameObject uiLayer = Instantiate (prefab);
-				switch (level) {
-				case CanvasLevel.Top:
-					uiLayer.transform.SetParent (mCanvasTopTrans);
-					break;
-				case CanvasLevel.Middle:
-					uiLayer.transform.SetParent (mCanvasMidTrans);
-					break;
-				case CanvasLevel.Bottom:
-					uiLayer.transform.SetParent (mCanvasBottomTrans);
-					break;
-				case CanvasLevel.Root:
-					uiLayer.transform.SetParent (transform);
-					break;
-				case CanvasLevel.MainCamera:
-					uiLayer.transform.SetParent (Camera.main.transform);
-					break;
-
-				}
-
+				GameObject uiLayer = NGUITools.AddChild (mParentTrans.gameObject,prefab, nextZ);
 
 				uiLayer.transform.localPosition = Vector3.zero;
 				uiLayer.transform.localEulerAngles = Vector3.zero;
@@ -113,8 +88,9 @@ namespace QFramework.UI {
 		{
 			if (mAllLayers.ContainsKey (layerName)) 
 			{
+				Debug.LogWarning ("Remove Layer:" + layerName);
 				mAllLayers [layerName].Exit ();
-				GameObject.Destroy (mAllLayers [layerName].gameObject);
+				NGUITools.Destroy (mAllLayers [layerName].gameObject);
 				mAllLayers.Remove (layerName);
 			}
 		}
@@ -181,7 +157,5 @@ namespace QFramework.UI {
             return mUICamera;
         }
 	}
-
-    
-
 }
+#endif
