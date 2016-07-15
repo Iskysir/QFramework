@@ -92,8 +92,8 @@ namespace  QFramework {
 				new QFileLogOutput(),
 			};
 
-			App.Instance().onGUI += OnGUI;
-			App.Instance().onDestroy += OnDestroy;
+			QApp.Instance().onGUI += OnGUI;
+			QApp.Instance().onDestroy += OnDestroy;
 		}
 
 		void OnGUI()

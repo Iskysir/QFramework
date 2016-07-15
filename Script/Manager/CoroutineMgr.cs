@@ -17,7 +17,7 @@ namespace QFramework {
 
 
 		public Coroutine StartCoroutine(IEnumerator routine) {
-			return App.Instance ().StartCoroutine (routine);
+			return QApp.Instance ().StartCoroutine (routine);
 		}
 
 		Dictionary<string,List<Coroutine>> mCoroutineDic = new Dictionary<string, List<Coroutine>>();
@@ -32,14 +32,14 @@ namespace QFramework {
 
 		public void StopCoroutine(IEnumerator enumerator)
 		{
-			App.Instance().StopCoroutine (enumerator);
+			QApp.Instance().StopCoroutine (enumerator);
 		}
 		/// <summary>
 		/// Executes the coroutine.
 		/// </summary>
 		public void ExecuteCoroutine(IEnumerator enumarator,string name)
 		{
-			var coroutine = App.Instance().StartCoroutine (enumarator);
+			var coroutine = QApp.Instance().StartCoroutine (enumarator);
 
 			if (mCoroutineDic.ContainsKey (name)) {
 				mCoroutineDic [name].Add (coroutine);
@@ -62,7 +62,7 @@ namespace QFramework {
 				for (int i = 0; i < coList.Count; i++) {
 
 					if (null != coList [i]) {
-						App.Instance().StopCoroutine (coList [i]);
+						QApp.Instance().StopCoroutine (coList [i]);
 						coList [i] = null;
 					}
 				}
@@ -78,7 +78,7 @@ namespace QFramework {
 		/// </summary>
 		void OnDestroy()
 		{
-			App.Instance().StopAllCoroutines ();
+			QApp.Instance().StopAllCoroutines ();
 		}
 
 		void Log(string actionName,string content)

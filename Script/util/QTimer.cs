@@ -17,7 +17,7 @@ namespace QFramework {
 		/// <param name="callfunc">Callfunc.</param>
 		public static void ExecuteAfterSeconds(float seconds,QTimerCallfunc callfunc)
 		{
-			App.Instance ().StartCoroutine (Execute (seconds, callfunc));
+			QApp.Instance ().StartCoroutine (Execute (seconds, callfunc));
 		}
 
 		static IEnumerator Execute(float seconds,QTimerCallfunc callfunc)

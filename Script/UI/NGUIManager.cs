@@ -1,4 +1,4 @@
-﻿#define NGUI
+﻿//#define NGUI
 
 using UnityEngine;
 using System.Collections;

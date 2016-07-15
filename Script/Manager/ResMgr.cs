@@ -40,8 +40,8 @@ namespace QFramework {
 			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
 			this.loadingResDict = new Dictionary<string, IResLoader>();
 			this.loadedResList = new List<string>(20);
-			App.Instance().onUpdate += Update;
-			App.Instance().onDestroy += OnDestroy;
+			QApp.Instance().onUpdate += Update;
+			QApp.Instance().onDestroy += OnDestroy;
 		}
 
 		/// <summary>
@@ -189,7 +189,7 @@ namespace QFramework {
 			// 添加至正在加载列表
 			AddLoadingLoader(loader);
 			// 启动加载
-			App.Instance().StartCoroutine(loader);
+			QApp.Instance().StartCoroutine(loader);
 		}
 
 		/// <summary>
@@ -211,7 +211,7 @@ namespace QFramework {
 			loader = new SceneLoader(sceneName, additive, loadDone, updateProgress);
 			#endif
 			// 启动加载
-			App.Instance().StartCoroutine(loader);
+			QApp.Instance().StartCoroutine(loader);
 			this.sceneLoader = loader;
 		}
 
@@ -235,7 +235,7 @@ namespace QFramework {
 			this.loadedAssetBundleSceneLoaderDict.Clear();
 			this.loadedAssetBundleLoaderDict.Clear();
 			#endif
-			App.Instance().StartCoroutine(InternalUnloadAsync());
+			QApp.Instance().StartCoroutine(InternalUnloadAsync());
 		}
 
 		/// <summary>
