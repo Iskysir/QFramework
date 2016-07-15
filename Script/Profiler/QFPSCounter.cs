@@ -5,7 +5,7 @@ namespace QFramework {
 	/// <summary>
 	/// 帧率计算器
 	/// </summary>
-	public class FPSCounter
+	public class QFPSCounter
 	{
 		// 帧率计算频率
 		private const float calcRate = 0.5f;
@@ -16,7 +16,7 @@ namespace QFramework {
 		// 显示帧率
 		private int fps = 0;
 
-		public FPSCounter(QConsole console)
+		public QFPSCounter(QConsole console)
 		{
 			console.onUpdateCallback += Update;
 			console.onGUICallback += OnGUI;

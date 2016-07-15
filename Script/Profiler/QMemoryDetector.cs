@@ -6,7 +6,7 @@ namespace QFramework {
 	/// <summary>
 	/// 内存检测器，目前只是输出Profiler信息
 	/// </summary>
-	public class MemoryDetector 
+	public class QMemoryDetector 
 	{
 		private readonly static string TotalAllocMemroyFormation = "Alloc Memory : {0}M";
 		private readonly static string TotalReservedMemoryFormation = "Reserved Memory : {0}M";
@@ -27,7 +27,7 @@ namespace QFramework {
 		private int w = 0;
 		private int h = 0;
 
-		public MemoryDetector(QConsole console)
+		public QMemoryDetector(QConsole console)
 		{
 			this.x = Screen.width - 200;
 			this.y = 60;

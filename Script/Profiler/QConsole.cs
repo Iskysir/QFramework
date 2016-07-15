@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
+using System.Collections.Generic;
 
 namespace QFramework {
 	/// <summary>
@@ -9,6 +10,21 @@ namespace QFramework {
 	/// </summary>
 	public class QConsole : QSingleton<QConsole>
 	{
+
+		struct ConsoleMessage
+		{
+			public readonly string  message;
+			public readonly string  stackTrace;
+			public readonly LogType	type;
+
+			public ConsoleMessage (string message, string stackTrace, LogType type)
+			{
+				this.message    = message;
+				this.stackTrace	= stackTrace;
+				this.type       = type;
+			}
+		}
+
 		/// <summary>
 		/// Update回调
 		/// </summary>
@@ -23,22 +39,41 @@ namespace QFramework {
 		/// <summary>
 		/// FPS计数器
 		/// </summary>
-		private QFramework.FPSCounter fpsCounter = null;
+		private QFPSCounter fpsCounter = null;
 		/// <summary>
 		/// 内存监视器
 		/// </summary>
-		private MemoryDetector memoryDetector = null;
+		private QMemoryDetector memoryDetector = null;
 		private bool showGUI = false;
+
+
+		List<ConsoleMessage> entries = new List<ConsoleMessage>();
+		Vector2 scrollPos;
+		bool collapse;
+
+		// Visual elements:
+
+		const int margin = 20;
+		Rect windowRect = new Rect(margin + Screen.width * 0.5f, margin, Screen.width * 0.5f - (2 * margin), Screen.height - (2 * margin));
+
+		GUIContent clearLabel    = new GUIContent("Clear",    "Clear the contents of the console.");
+		GUIContent collapseLabel = new GUIContent("Collapse", "Hide repeated messages.");
+
 
 		private QConsole()
 		{
-			this.fpsCounter = new QFramework.FPSCounter(this);
-			this.memoryDetector = new MemoryDetector(this);
+			this.fpsCounter = new QFPSCounter(this);
+			this.memoryDetector = new QMemoryDetector(this);
 			//        this.showGUI = App.Instance().showLogOnGUI;
 			QApp.Instance().onUpdate += Update;
 			QApp.Instance().onGUI += OnGUI;
+		}
 
-			new MemoryDetector (this);
+		void OnEnable  () {
+			Application.logMessageReceived += HandleLog;
+		}
+		void OnDisable () {
+			Application.logMessageReceived -= HandleLog;
 		}
 
 		void Update()
@@ -64,9 +99,83 @@ namespace QFramework {
 				return;
 
 			if (this.onGUICallback != null)
-				this.onGUICallback();
+				this.onGUICallback ();
+
+			if (!showGUI) {
+				return;
+			}
+
+			windowRect = GUILayout.Window(123456, windowRect, ConsoleWindow, "Console");
+		}
+			
+
+		/// <summary>
+		/// A window displaying the logged messages.
+		/// </summary>
+		void ConsoleWindow (int windowID)
+		{
+			scrollPos = GUILayout.BeginScrollView(scrollPos);
+
+			// Go through each logged entry
+			for (int i = 0; i < entries.Count; i++) {
+				ConsoleMessage entry = entries[i];
+
+				// If this message is the same as the last one and the collapse feature is chosen, skip it
+				if (collapse && i > 0 && entry.message == entries[i - 1].message) {
+					continue;
+				}
+
+				// Change the text colour according to the log type
+				switch (entry.type) {
+					case LogType.Error:
+					case LogType.Exception:
+						GUI.contentColor = Color.red;
+						break;
+
+					case LogType.Warning:
+						GUI.contentColor = Color.yellow;
+						break;
+
+					default:
+						GUI.contentColor = Color.white;
+						break;
+				}
+
+				if (entry.type == LogType.Exception)
+				{
+					GUILayout.Label(entry.message + " || " + entry.stackTrace);
+
+				} else {
+
+					GUILayout.Label(entry.message);
+
+				}
+			}
+
+			GUI.contentColor = Color.white;
+
+			GUILayout.EndScrollView();
+
+			GUILayout.BeginHorizontal();
+
+			// Clear button
+			if (GUILayout.Button(clearLabel)) {
+				entries.Clear();
+			}
+
+			// Collapse toggle
+			collapse = GUILayout.Toggle(collapse, collapseLabel, GUILayout.ExpandWidth(false));
+
+			GUILayout.EndHorizontal();
+
+			// Set the window to be draggable by the top title bar
+			GUI.DragWindow(new Rect(0, 0, 10000, 20));
+		}
+
+		void HandleLog (string message, string stackTrace, LogType type)
+		{
+			ConsoleMessage entry = new ConsoleMessage(message, stackTrace, type);
+			entries.Add(entry);
 		}
 	}
-
-
 }
