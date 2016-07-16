@@ -44,7 +44,7 @@ namespace QFramework {
 		/// 内存监视器
 		/// </summary>
 		private QMemoryDetector memoryDetector = null;
-		private bool showGUI = false;
+		private bool showGUI = true;
 
 
 		List<ConsoleMessage> entries = new List<ConsoleMessage>();
@@ -67,14 +67,15 @@ namespace QFramework {
 			//        this.showGUI = App.Instance().showLogOnGUI;
 			QApp.Instance().onUpdate += Update;
 			QApp.Instance().onGUI += OnGUI;
+			Application.logMessageReceived += HandleLog;
+
 		}
 
-		void OnEnable  () {
-			Application.logMessageReceived += HandleLog;
-		}
-		void OnDisable () {
+		~QConsole()
+		{
 			Application.logMessageReceived -= HandleLog;
 		}
+			
 
 		void Update()
 		{
@@ -100,10 +101,6 @@ namespace QFramework {
 
 			if (this.onGUICallback != null)
 				this.onGUICallback ();
-
-			if (!showGUI) {
-				return;
-			}
 
 			windowRect = GUILayout.Window(123456, windowRect, ConsoleWindow, "Console");
 		}

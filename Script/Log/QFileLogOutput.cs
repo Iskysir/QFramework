@@ -11,6 +11,18 @@ namespace QFramework {
 	/// </summary>
 	public class QFileLogOutput : ILogOutput
 	{
+
+		#if UNITY_EDITOR
+		string mDevicePersistentPath = Application.dataPath + "/../PersistentPath";
+		#elif UNITY_STANDALONE_WIN
+		string mDevicePersistentPath = Application.dataPath + "/PersistentPath";
+		#elif UNITY_STANDALONE_OSX
+		string mDevicePersistentPath = Application.dataPath + "/PersistentPath";
+		#else
+		string mDevicePersistentPath = Application.persistentDataPath;
+		#endif
+
+
 		static string LogPath = "Log";
 
 		private Queue<QLog.LogData> mWritingLogQueue = null;
@@ -29,7 +41,7 @@ namespace QFramework {
 			System.DateTime now = System.DateTime.Now;
 			string logName = string.Format("Q{0}{1}{2}{3}{4}{5}",
 				now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-			string logPath = string.Format("{0}/{1}/{2}.log", QSetting.DevicePersistentPath, LogPath, logName);
+		string logPath = string.Format("{0}/{1}/{2}.txt", mDevicePersistentPath, LogPath, logName);
 			if (File.Exists(logPath))
 				File.Delete(logPath);
 			string logDir = Path.GetDirectoryName(logPath);
@@ -65,13 +77,13 @@ namespace QFramework {
 						if (log.Level == QLog.LogLevel.ERROR)
 						{
 							this.mLogWriter.WriteLine("---------------------------------------------------------------------------------------------------------------------");
-							this.mLogWriter.WriteLine(log.Log);
+							this.mLogWriter.WriteLine(System.DateTime.Now.ToString() + "\t" + log.Log + "\n");
 							this.mLogWriter.WriteLine(log.Track);
 							this.mLogWriter.WriteLine("---------------------------------------------------------------------------------------------------------------------"); 
 						}
 						else
 						{
-							this.mLogWriter.WriteLine(log.Log);
+							this.mLogWriter.WriteLine(System.DateTime.Now.ToString() + "\t" + log.Log);
 						}
 					}
 				}
