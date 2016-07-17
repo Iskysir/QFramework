@@ -1,4 +1,4 @@
-﻿//#define NGUI
+﻿#define NGUI
 
 using UnityEngine;
 using System.Collections;
@@ -67,7 +67,7 @@ namespace QFramework.UI {
 
 				GameObject uiLayer = NGUITools.AddChild (mParentTrans.gameObject,prefab, nextZ);
 
-				uiLayer.transform.localPosition = Vector3.zero;
+				uiLayer.transform.localPosition = Vector3.forward * nextZ;
 				uiLayer.transform.localEulerAngles = Vector3.zero;
 				uiLayer.transform.localScale = Vector3.one;
 
