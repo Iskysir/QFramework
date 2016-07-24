@@ -45,6 +45,7 @@ namespace QFramework {
 
 			// 日志输出 
 			QLog.Instance ();
+			QConsole.Instance ();
 
 			yield return GameManager.Instance ().Init ();
 

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -50,6 +52,7 @@ namespace QFramework {
 		Vector2 scrollPos;
 		bool scrollToBottom;
 		bool collapse;
+		bool mTouching = false;
 
 		const int margin = 20;
 		Rect windowRect = new Rect(margin + Screen.width * 0.5f, margin, Screen.width * 0.5f - (2 * margin), Screen.height - (2 * margin));
