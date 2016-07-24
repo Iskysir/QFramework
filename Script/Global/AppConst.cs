@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-/// 常量
+/// 常量 TODO:这个要干掉,最好是自动生成的唯一表示符号
 /// </summary>
 /// <summary>
 /// 关卡需要生成的标记
@@ -123,14 +123,6 @@ public class MUSIC {
 	public const int GAME_BG = 1;  		// 游戏背景音乐
 
 	public const int COUNT = 2;			// 音乐的个数
-}
-		
-/// <summary>
-/// 游戏的基本数据
-/// </summary>
-public class GAME_DATA {
-	public static int THEME;
-	public const bool DEBUG = false;
 }
 
 public class EMPTY {
