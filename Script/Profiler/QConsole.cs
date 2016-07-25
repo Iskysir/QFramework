@@ -50,7 +50,7 @@ namespace QFramework {
 		private bool showGUI = true;
 		List<ConsoleMessage> entries = new List<ConsoleMessage>();
 		Vector2 scrollPos;
-		bool scrollToBottom;
+		bool scrollToBottom = true;
 		bool collapse;
 		bool mTouching = false;
 
