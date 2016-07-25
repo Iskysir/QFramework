@@ -44,8 +44,8 @@ namespace QFramework {
 
 		void OnGUI()
 		{
-			GUI.Label(new Rect(Screen.width - 80, 20, 40, 20), this.fps.ToString());
-		}
+			GUI.color = Color.black;
+			GUI.Label(new Rect(80, 20, 120, 20),"fps:" + this.fps.ToString());		}
 	}
 
 }

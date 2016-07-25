@@ -29,7 +29,7 @@ namespace QFramework {
 
 		public QMemoryDetector(QConsole console)
 		{
-			this.x = Screen.width - 200;
+			this.x = 60;
 			this.y = 60;
 			this.w = 200;
 			this.h = 20;
