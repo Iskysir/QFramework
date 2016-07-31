@@ -31,15 +31,14 @@ namespace QFramework {
 			System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch ();
 			watch.Start ();
 			TextAsset textAsset = Resources.Load(PATH + name, typeof(TextAsset)) as TextAsset;
-			if (APP_CONFIG.DEBUG) {
-				Debug.LogWarning (textAsset.name);
-			}
+
+			Debug.LogWarning (textAsset.name);
+
 			mCachedTables.Add (textAsset.name, new CSVTable (textAsset.text));
 			watch.Stop ();
 
-			if (APP_CONFIG.DEBUG) {
-				Debug.LogWarning ("time:" + watch.ElapsedMilliseconds);
-			}
+			Debug.LogWarning ("time:" + watch.ElapsedMilliseconds);
+
 			yield return 0;
 		}
 

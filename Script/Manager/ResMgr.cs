@@ -31,11 +31,7 @@ namespace QFramework {
 		/// </summary>
 		private ResMgr()
 		{
-			#if UNITY_ANDROID
-			LocalPath.AssetBundlePath = Application.streamingAssetsPath + "/AssetBundles/";
-			#else
-			LocalPath.AssetBundlePath = "file://" + Application.streamingAssetsPath + "/AssetBundles/";
-			#endif
+
 			this.loadedAssetBundleLoaderDict = new Dictionary<string, AssetBundleLoader>();
 			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
 			this.loadingResDict = new Dictionary<string, IResLoader>();
@@ -244,9 +240,8 @@ namespace QFramework {
 		/// <returns></returns>
 		IEnumerator InternalUnloadAsync()
 		{
-			if (APP_CONFIG.DEBUG) {
-				Debug.LogWarning ("Unload in ResMgr");
-			}
+			Debug.LogWarning ("Unload in ResMgr");
+
 			AsyncOperation opt = Resources.UnloadUnusedAssets();
 			yield return opt;
 		}
@@ -257,11 +252,11 @@ namespace QFramework {
 		/// <param name="loader">加载器</param>
 		void AddLoadingLoader(IResLoader loader)
 		{
-			if (APP_CONFIG.DEBUG) {
+			
 
-				QLog.Assert ((loader != null), "AddLoadingLoader loader is NULL");
-				QLog.Assert (!this.loadingResDict.ContainsKey (loader.ResName), string.Format ("Already Loading {0}", loader.ResName));
-			}
+			QLog.Assert ((loader != null), "AddLoadingLoader loader is NULL");
+			QLog.Assert (!this.loadingResDict.ContainsKey (loader.ResName), string.Format ("Already Loading {0}", loader.ResName));
+
 			//Debug.Log(string.Format("{0} start loading at {1}", loader.ResName, Time.frameCount));
 			this.loadingResDict[loader.ResName] = loader;
 		}

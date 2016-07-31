@@ -14,34 +14,27 @@ namespace QFramework {
 
 		public static Stopwatch TimeBegan(string name)
 		{
-			if (APP_CONFIG.DEBUG) {
-				var watch = new Stopwatch ();
-				watches.Add (name, watch);
-				watch.Start ();
-				return watch;
-			}
-			return null;
+			var watch = new Stopwatch ();
+			watches.Add (name, watch);
+			watch.Start ();
+			return watch;
 		}
 
 		public static long TimeStop(string name)
 		{
-			if (APP_CONFIG.DEBUG) {
-				watches [name].Stop ();
-				long retValue = watches [name].ElapsedMilliseconds;
-				watches.Remove (name);
-				return retValue;
-			}
-			return 0;
+			watches [name].Stop ();
+			long retValue = watches [name].ElapsedMilliseconds;
+			watches.Remove (name);
+			return retValue;
+
+
 		}
 
 		public static long TimeStop(Stopwatch watch)
 		{
-			if (APP_CONFIG.DEBUG) {
-				watch.Stop ();
-				long retValue = watch.ElapsedMilliseconds;
-				return retValue;
-			}
-			return 0;
+			watch.Stop ();
+			long retValue = watch.ElapsedMilliseconds;
+			return retValue;
 		}
 
 	}

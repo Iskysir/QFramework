@@ -135,9 +135,3 @@ public class EMPTY {
 	public const int SIX = 6;
 }
 	
-/// <summary>
-/// 游戏的配置
-/// </summary>
-public class APP_CONFIG {
-	public const bool DEBUG = true;
-}
