@@ -16,7 +16,7 @@ namespace QFramework {
 	//using Thrift.Transport;
 	//
 	//[CustomLuaClass]
-	public class NetMgr : QSingleton<NetMgr>,IMgr
+	public class QNetMgr : QMgr
 	{
 		private Socket mSocket = null;
 		private Thread mSendThread = null;
@@ -32,7 +32,7 @@ namespace QFramework {
 		private Queue<NetMsg> mRecvingMsgQueue = null;
 		private Queue<NetMsg> mRecvWaitingMsgQueue = null;
 
-		private NetMgr()
+		private QNetMgr()
 		{
 			//        Game.Instance().onApplicationQuit += Disconnect;
 		}

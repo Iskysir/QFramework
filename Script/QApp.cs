@@ -32,7 +32,7 @@ namespace QFramework {
 
 		void  Start()
 		{
-			CoroutineMgr.Instance ().StartCoroutine (ApplicationDidFinishLaunching());
+			QCoroutineMgr.Instance.StartCoroutine (ApplicationDidFinishLaunching());
 		}
 
 		/// <summary>
@@ -44,19 +44,19 @@ namespace QFramework {
 			QSetting.Load();
 
 			// 日志输出 
-			QLog.Instance ();
-			QConsole.Instance ();
+			var log =  QLog.Instance;
+			var console = QConsole.Instance;
 
-			yield return GameManager.Instance ().Init ();
+			yield return GameManager.Instance.Init ();
 
 			// 进入测试逻辑
-			if (QApp.Instance().mode == AppMode.Developing) {
+			if (QApp.Instance.mode == AppMode.Developing) {
 
 				yield return GetComponent<ITestEntry> ().Launch ();
 
 				// 进入正常游戏逻辑
 			} else {
-				yield return GameManager.Instance ().Launch ();
+				yield return GameManager.Instance.Launch ();
 
 			}
 

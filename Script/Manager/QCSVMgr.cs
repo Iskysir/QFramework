@@ -7,10 +7,10 @@ namespace QFramework {
 	/// <summary>
 	/// CSV数据管理器
 	/// </summary>
-	public class CSVMgr : QSingleton<CSVMgr> ,IMgr{
+	public class QCSVMgr : QSingleton<QCSVMgr>{
 
 		// 
-		private CSVMgr() {}
+		private QCSVMgr() {}
 		public void Init()
 		{
 

@@ -5,7 +5,7 @@ using QFramework;
 
 // 资源管理器，封装开发模式和发布模式
 namespace QFramework {
-	public class QResMgr : QMonoSingleton<QResMgr>,IMgr
+	public class QResMgr : QMonoSingleton<QResMgr>
 	{
 		public GameObject LoadUIPrefabSync(string uiName)
 		{
@@ -35,8 +35,8 @@ namespace QFramework {
 			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
 			this.loadingResDict = new Dictionary<string, IResLoader>();
 			this.loadedResList = new List<string>(20);
-			QApp.Instance().onUpdate += Update;
-			QApp.Instance().onDestroy += OnDestroy;
+			QApp.Instance.onUpdate += Update;
+			QApp.Instance.onDestroy += OnDestroy;
 		}
 
 		/// <summary>
@@ -184,7 +184,7 @@ namespace QFramework {
 			// 添加至正在加载列表
 			AddLoadingLoader(loader);
 			// 启动加载
-			QApp.Instance().StartCoroutine(loader);
+			QApp.Instance.StartCoroutine(loader);
 		}
 
 		/// <summary>
@@ -206,7 +206,7 @@ namespace QFramework {
 			loader = new SceneLoader(sceneName, additive, loadDone, updateProgress);
 			#endif
 			// 启动加载
-			QApp.Instance().StartCoroutine(loader);
+			QApp.Instance.StartCoroutine(loader);
 			this.sceneLoader = loader;
 		}
 
@@ -230,7 +230,7 @@ namespace QFramework {
 			this.loadedAssetBundleSceneLoaderDict.Clear();
 			this.loadedAssetBundleLoaderDict.Clear();
 			#endif
-			QApp.Instance().StartCoroutine(InternalUnloadAsync());
+			QApp.Instance.StartCoroutine(InternalUnloadAsync());
 		}
 
 		/// <summary>

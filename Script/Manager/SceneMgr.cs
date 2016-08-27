@@ -8,7 +8,7 @@ namespace QFramework {
 	/// 场景管理器
 	/// </summary>
 	//[CustomLuaClass]
-	public class SceneMgr : QSingleton<SceneMgr>,IMgr
+	public class SceneMgr : QSingleton<SceneMgr>
 	{
 		public delegate void LoadSceneDoneCallback(string sceneName);
 		public delegate void LoadSceneUpdateProgressCallback(string sceneName, float progress);
@@ -47,9 +47,9 @@ namespace QFramework {
 			this.curUpdateProgressCallback = loadSceneUpdateProgressCallback;
 
 			// 4.释放中间资源
-			QFramework.QResMgr.Instance().Unload();
+			QFramework.QResMgr.Instance.Unload();
 			// 1.加载Loading场景
-			QFramework.QResMgr.Instance().LoadScene(loadingSceneName, false, OnLoadingSceneDone, null);
+			QFramework.QResMgr.Instance.LoadScene(loadingSceneName, false, OnLoadingSceneDone, null);
 		}
 
 		/// <summary>
@@ -83,13 +83,13 @@ namespace QFramework {
 
 			// 2.加载主场景
 			this.curTotalProgress = 50;
-			QFramework.QResMgr.Instance().LoadScene(this.curSceneName, true, OnLoadSceneDone, OnLoadSceneUpdateProgress);
+			QFramework.QResMgr.Instance.LoadScene(this.curSceneName, true, OnLoadSceneDone, OnLoadSceneUpdateProgress);
 			// 3.加载逻辑资源
 			if (this.curLogicResNames != null && this.curLogicResNames.Length > 0)
 			{
 				this.curTotalProgress += this.curLogicResNames.Length;
 				for (int i = 0; i < this.curLogicResNames.Length; ++i)
-					QFramework.QResMgr.Instance().LoadRes(this.curLogicResNames[i], OnLoadLogicResDone);
+					QFramework.QResMgr.Instance.LoadRes(this.curLogicResNames[i], OnLoadLogicResDone);
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace QFramework {
 		/// <returns></returns>
 		IEnumerator CleanScene()
 		{
-			QFramework.QResMgr.Instance().Unload();
+			QFramework.QResMgr.Instance.Unload();
 			this.curLogicResObjDict.Clear();
 			this.curLogicResObjDict = null;
 			Debug.LogWarning("Unload in SceneMgr");

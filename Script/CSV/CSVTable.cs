@@ -44,14 +44,14 @@ namespace QFramework {
 		private void CreateStrs(string csvText)
 		{
 			// 分行
-			string[] rows = csvText.Split (CSVMgr.LINE_SPLIT_SYMBOL [0]);
+			string[] rows = csvText.Split (QCSVMgr.LINE_SPLIT_SYMBOL [0]);
 			rowCount = rows.Length;
 			itemCount = rows.Length - 1;
 
 			// 创建二维字符串数组
 			strs = new string[rowCount][];
 			for (int i = 0; i < rowCount; i++) {
-				strs [i] = rows [i].Split (CSVMgr.SPLIT_SYMBOL [0]);
+				strs [i] = rows [i].Split (QCSVMgr.SPLIT_SYMBOL [0]);
 			}
 
 		}

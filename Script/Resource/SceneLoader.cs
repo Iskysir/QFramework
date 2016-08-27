@@ -89,7 +89,7 @@ namespace QFramework {
 			{
 				for (int i = 0; i < this.dependences.Length; ++i)
 				{
-					if (!QResMgr.Instance().IsLoadedAssetBundle(this.dependences[i]))
+					if (!QResMgr.Instance.IsLoadedAssetBundle(this.dependences[i]))
 						return false;
 				}
 			}
@@ -123,12 +123,12 @@ namespace QFramework {
 
 		public virtual void CheckDependences()
 		{
-			this.dependences = QResMgr.Instance().GetDependences(base.SceneName);
+			this.dependences = QResMgr.Instance.GetDependences(base.SceneName);
 			for (int i = 0; i < this.dependences.Length; ++i)
 			{
 				string dependence = this.dependences[i];
-				if (!QResMgr.Instance().IsLoadedAssetBundle(dependence))
-					QResMgr.Instance().LoadRes(dependence);
+				if (!QResMgr.Instance.IsLoadedAssetBundle(dependence))
+					QResMgr.Instance.LoadRes(dependence);
 			}
 		}
 

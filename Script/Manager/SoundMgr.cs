@@ -50,7 +50,7 @@ namespace QFramework {
 		{
 			QTest.TimeBegan (path);
 
-			QResMgr.Instance ().LoadRes (path, delegate(string resName, Object resObj) {
+			QResMgr.Instance.LoadRes (path, delegate(string resName, Object resObj) {
 				if (resObj)
 				{
 					
@@ -132,7 +132,7 @@ namespace QFramework {
 		{
 			QTest.TimeBegan (path);
 
-			QResMgr.Instance ().LoadRes (path, delegate(string resName, Object resObj) {
+			QResMgr.Instance.LoadRes (path, delegate(string resName, Object resObj) {
 				if (resObj)
 				{
 					Debug.LogWarning ("loaded: " + path + " " + id.ToString() + "time:" + QTest.TimeStop(path));

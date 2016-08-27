@@ -29,7 +29,7 @@ namespace QFramework.UI {
 				GameObject.Instantiate (Resources.Load ("UGUIManager"));
 			}
 
-			UGUIManager.Instance ();
+			var init =UGUIManager.Instance;
 
 			yield return null;
 		}
@@ -69,7 +69,7 @@ namespace QFramework.UI {
 
 
 			} else {
-				GameObject prefab = QResMgr.Instance ().LoadUIPrefabSync (layerName);
+				GameObject prefab = QResMgr.Instance.LoadUIPrefabSync (layerName);
 
 				GameObject uiLayer = Instantiate (prefab);
 				switch (level) {
