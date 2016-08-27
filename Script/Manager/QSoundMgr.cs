@@ -11,14 +11,14 @@ namespace QFramework {
 		Sync,	// 同步: 只能播放一个
 	}
 
-	public class SoundMgr : QMonoSingleton<SoundMgr> {
+	public class QSoundMgr : QMonoSingleton<QSoundMgr> {
 
 //		private List<AudioSource> clipPlayers = new List<AudioSource>();		// 音效播放器
 		private AudioSource musicPlayer;										// 音乐播放器
 		private AudioListener listener;											// 音监听器
 		private string mCurClipName;											// 当前的音效名字
 
-		private SoundMgr(){}
+		private QSoundMgr(){}
 
 		public AudioClip[] clips = new AudioClip[SOUND.COUNT];					// 多少种Clips
 

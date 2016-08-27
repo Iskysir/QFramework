@@ -152,7 +152,7 @@ namespace QFramework {
 		/// <param name="resName"></param>
 		/// <param name="loadDone"></param>
 		/// <param name="updateProgress"></param>
-		public void LoadRes(string resName, ResourceLoader.LoadResDoneCallback loadDone = null)
+		public void LoadRes(string resName, QResLoader.LoadResDoneCallback loadDone = null)
 		{
 			IResLoader loader = null;
 			#if ASSETBUNDLE
@@ -179,7 +179,7 @@ namespace QFramework {
 			#if ASSETBUNDLE
 			loader = new AssetBundleLoader(resName, loadDone);
 			#else
-			loader = new ResourceLoader(resName, loadDone);
+			loader = new QResLoader(resName, loadDone);
 			#endif
 			// 添加至正在加载列表
 			AddLoadingLoader(loader);

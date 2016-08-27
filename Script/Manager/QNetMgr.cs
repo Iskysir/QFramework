@@ -24,13 +24,13 @@ namespace QFramework {
 		private volatile bool mIsRunning = false;
 		// 发送
 		private object mSendLock = null;
-		private Queue<NetMsg> mSendingMsgQueue = null;
-		private Queue<NetMsg> mSendWaitingMsgQueue = null;
+		private Queue<QNetMsg> mSendingMsgQueue = null;
+		private Queue<QNetMsg> mSendWaitingMsgQueue = null;
 		// 接收
 		private BufferedStream mRecvStream = null;
 		private object mRecvLock = null;
-		private Queue<NetMsg> mRecvingMsgQueue = null;
-		private Queue<NetMsg> mRecvWaitingMsgQueue = null;
+		private Queue<QNetMsg> mRecvingMsgQueue = null;
+		private Queue<QNetMsg> mRecvWaitingMsgQueue = null;
 
 		private QNetMgr()
 		{
@@ -64,11 +64,11 @@ namespace QFramework {
 			}
 			this.mSocket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 			this.mSendLock = new object();
-			this.mSendingMsgQueue = new Queue<NetMsg>();
-			this.mSendWaitingMsgQueue = new Queue<NetMsg>();
+			this.mSendingMsgQueue = new Queue<QNetMsg>();
+			this.mSendWaitingMsgQueue = new Queue<QNetMsg>();
 			this.mRecvLock = new object();
-			this.mRecvingMsgQueue = new Queue<NetMsg>();
-			this.mRecvWaitingMsgQueue = new Queue<NetMsg>();
+			this.mRecvingMsgQueue = new Queue<QNetMsg>();
+			this.mRecvWaitingMsgQueue = new Queue<QNetMsg>();
 			//        Game.Instance().onUpdate += Update;
 			try
 			{
@@ -114,7 +114,7 @@ namespace QFramework {
 		/// <param name="msgData"></param>
 		public void SendNetMsg(int msgType, byte[] msgData)
 		{
-			NetMsg msg = new NetMsg(msgType, msgData);
+			QNetMsg msg = new QNetMsg(msgType, msgData);
 			// 发送
 			lock (this.mSendLock)
 			{
@@ -134,7 +134,7 @@ namespace QFramework {
 					{
 						while (this.mSendWaitingMsgQueue.Count == 0)
 							Monitor.Wait(this.mSendLock);
-						Queue<NetMsg> temp = this.mSendingMsgQueue;
+						Queue<QNetMsg> temp = this.mSendingMsgQueue;
 						this.mSendingMsgQueue = this.mSendWaitingMsgQueue;
 						this.mSendWaitingMsgQueue = this.mSendingMsgQueue;
 					}
@@ -143,7 +143,7 @@ namespace QFramework {
 				{
 					while (this.mSendingMsgQueue.Count > 0)
 					{
-						NetMsg msg = this.mSendingMsgQueue.Dequeue();
+						QNetMsg msg = this.mSendingMsgQueue.Dequeue();
 						try
 						{
 							// 拼接TLV
@@ -195,7 +195,7 @@ namespace QFramework {
 			}
 		}
 
-		void SendMsgInMainThread(NetMsg msg)
+		void SendMsgInMainThread(QNetMsg msg)
 		{
 			lock (this.mRecvLock)
 			{
@@ -211,7 +211,7 @@ namespace QFramework {
 				{
 					if (this.mRecvWaitingMsgQueue.Count > 0)
 					{
-						Queue<NetMsg> temp = this.mRecvingMsgQueue;
+						Queue<QNetMsg> temp = this.mRecvingMsgQueue;
 						this.mRecvingMsgQueue = this.mRecvWaitingMsgQueue;
 						this.mRecvWaitingMsgQueue = temp;
 					}
@@ -221,7 +221,7 @@ namespace QFramework {
 			{
 				while (this.mRecvingMsgQueue.Count > 0)
 				{
-					NetMsg msg = this.mRecvingMsgQueue.Dequeue();
+					QNetMsg msg = this.mRecvingMsgQueue.Dequeue();
 					// 交由Lua解析并处理逻辑
 					//                LuaMgr.Instance().CallTableFunction("NetMsgMgr", "HandleNetMsg", msg.Type, msg.Data);
 				}

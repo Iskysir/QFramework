@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// 网络消息
 /// </summary>
-public class NetMsg 
+public class QNetMsg 
 {
     public int Type { get; set; }
     public int Length 
@@ -16,7 +16,7 @@ public class NetMsg
     }
     public byte[] Data { get; set; }
 
-    public NetMsg(int type, byte[] data)
+    public QNetMsg(int type, byte[] data)
     {
         if (data == null)
         {

@@ -8,7 +8,7 @@ namespace QFramework {
 	/// </summary>
 	public static class QTransExtend  {
 
-		public static void OnClick(this Transform trans,VoidDelegate.WithGo callback)
+		public static void OnClick(this Transform trans,QVoidDelegate.WithGo callback)
 		{
 			QFramework.UI.UGUIEventListener.Get (trans.gameObject);
 

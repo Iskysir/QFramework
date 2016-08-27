@@ -23,7 +23,7 @@ namespace QFramework.Event {
 		class QMsgHandler {
 
 			public IMsgReceiver receiver;
-			public  VoidDelegate.WithParams callback;
+			public  QVoidDelegate.WithParams callback;
 
 			/*
 			 * VoidDelegate.WithParams 是一种委托 ,定义是这样的 
@@ -32,7 +32,7 @@ namespace QFramework.Event {
 			 *  	public delegate void WithParams(params object[] paramList);
 			 *  }
 			 */
-			public QMsgHandler(IMsgReceiver receiver,VoidDelegate.WithParams callback)
+			public QMsgHandler(IMsgReceiver receiver,QVoidDelegate.WithParams callback)
 			{
 				this.receiver = receiver;
 				this.callback = callback;
@@ -49,7 +49,7 @@ namespace QFramework.Event {
 		/// 注意第一个参数,使用了C# this的扩展,
 		/// 所以只有实现IMsgReceiver的对象才能调用此方法
 		/// </summary>
-		public static void RegisterGlobalMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback)
+		public static void RegisterGlobalMsg(this IMsgReceiver self, string msgName,QVoidDelegate.WithParams callback)
 		{
 			// 略过
 			if (string.IsNullOrEmpty(msgName)) {
@@ -94,7 +94,7 @@ namespace QFramework.Event {
 		/// 注意第一个参数,使用了C# this的扩展,
 		/// 所以只有实现IMsgReceiver的对象才能调用此方法
 		/// </summary>
-		public static void RegisterMsgByChannel(this IMsgReceiver self, QMsgChannel channel,string msgName,VoidDelegate.WithParams callback)
+		public static void RegisterMsgByChannel(this IMsgReceiver self, QMsgChannel channel,string msgName,QVoidDelegate.WithParams callback)
 		{
 			// 略过
 			if (string.IsNullOrEmpty(msgName)) {
@@ -201,7 +201,7 @@ namespace QFramework.Event {
 			return false;
 		}
 
-		static bool CheckDelegateNull(VoidDelegate.WithParams callback)
+		static bool CheckDelegateNull(QVoidDelegate.WithParams callback)
 		{
 			if (null == callback) {
 				Debug.LogWarning ("callback is Null");
@@ -290,7 +290,7 @@ namespace QFramework.Event {
 		}
 			
 		[Obsolete("RegisterLogicMsg已经弃用了,请使用RegisterGlobalMsg")]
-		public static void RegisterLogicMsg(this IMsgReceiver self, string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
+		public static void RegisterLogicMsg(this IMsgReceiver self, string msgName,QVoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName)||CheckDelegateNull(callback)) {
 				return;
@@ -363,7 +363,7 @@ namespace QFramework.Event {
 		}
 
 		[Obsolete("UnRegisterMsg已经弃用了,请使用UnRegisterMsg")]
-		public static void UnRegisterMsg(this IMsgReceiver self,string msgName,VoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
+		public static void UnRegisterMsg(this IMsgReceiver self,string msgName,QVoidDelegate.WithParams callback,QMsgChannel channel = QMsgChannel.Global)
 		{
 			if (CheckStrNullOrEmpty (msgName) || CheckDelegateNull(callback)) {
 				return;

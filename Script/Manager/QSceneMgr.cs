@@ -8,7 +8,7 @@ namespace QFramework {
 	/// 场景管理器
 	/// </summary>
 	//[CustomLuaClass]
-	public class SceneMgr : QSingleton<SceneMgr>
+	public class QSceneMgr : QSingleton<QSceneMgr>
 	{
 		public delegate void LoadSceneDoneCallback(string sceneName);
 		public delegate void LoadSceneUpdateProgressCallback(string sceneName, float progress);
@@ -23,7 +23,7 @@ namespace QFramework {
 		private int curSceneProgress = 0;
 		private int curLogicResProgress = 0;
 
-		private SceneMgr()
+		private QSceneMgr()
 		{
 			this.curLogicResObjDict = new Dictionary<string, Object>();
 		}

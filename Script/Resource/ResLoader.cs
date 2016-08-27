@@ -5,16 +5,16 @@ using System.Collections;
 /// 从Resources中加载资源
 /// </summary>
 namespace QFramework {
-	public class ResourceLoader : IResLoader
+	public class QResLoader : IResLoader
 	{
 		public delegate void LoadResDoneCallback(string resName, Object resObj);
 
 		protected AsyncOperation req = null;
 
-		protected ResourceLoader()
+		protected QResLoader()
 		{ }
 
-		public ResourceLoader(string resName, LoadResDoneCallback loadResDone)
+		public QResLoader(string resName, LoadResDoneCallback loadResDone)
 		{
 			this.ResName = resName;
 			this.LoadDoneCallback = loadResDone;
@@ -59,7 +59,7 @@ namespace QFramework {
 	/// <summary>
 	/// 从AssetBundle中加载资源
 	/// </summary>
-	public class AssetBundleLoader : ResourceLoader, IResLoader, IAssetBundleLoader
+	public class AssetBundleLoader : QResLoader, IResLoader, IAssetBundleLoader
 	{
 		private string[] dependences = null;
 		private WWW www = null;

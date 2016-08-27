@@ -5,7 +5,7 @@ namespace QFramework.Extend {
 	
 	public static class QBehaviourExtend  {
 
-		public static void OnClick(this MonoBehaviour behaviour,VoidDelegate.WithGo callback)
+		public static void OnClick(this MonoBehaviour behaviour,QVoidDelegate.WithGo callback)
 		{
 			QFramework.UI.UGUIEventListener.Get (behaviour.gameObject);
 

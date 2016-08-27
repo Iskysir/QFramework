@@ -32,7 +32,7 @@ namespace QFramework {
 		/// <summary>
 		/// 资源加载完成回调
 		/// </summary>
-		ResourceLoader.LoadResDoneCallback LoadDoneCallback { get; set; }
+		QResLoader.LoadResDoneCallback LoadDoneCallback { get; set; }
 	}
 
 	/// <summary>

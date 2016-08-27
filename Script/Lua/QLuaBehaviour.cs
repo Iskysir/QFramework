@@ -4,7 +4,7 @@ using System.Collections;
 
 // 封装MonoBehaviour的生命周期及事件，分发到Lua
 //[CustomLuaClass]
-public class LuaBehaviour : MonoBehaviour 
+public class QLuaBehaviour : MonoBehaviour 
 {
 //    public LuaTable table = null;
 //    public string className = null;

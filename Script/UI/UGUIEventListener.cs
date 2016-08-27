@@ -10,17 +10,17 @@ namespace QFramework.UI {
 	/// </summary>
 	public class UGUIEventListener : UnityEngine.EventSystems.EventTrigger
 	{
-		public VoidDelegate.WithGo onClick;
-		public VoidDelegate.WithGo onDown;
-		public VoidDelegate.WithGo onEnter;
-		public VoidDelegate.WithGo onExit;
-		public VoidDelegate.WithGo onUp;
-		public VoidDelegate.WithGo onSelect;
-		public VoidDelegate.WithGo onUpdateSelect;
+		public QVoidDelegate.WithGo onClick;
+		public QVoidDelegate.WithGo onDown;
+		public QVoidDelegate.WithGo onEnter;
+		public QVoidDelegate.WithGo onExit;
+		public QVoidDelegate.WithGo onUp;
+		public QVoidDelegate.WithGo onSelect;
+		public QVoidDelegate.WithGo onUpdateSelect;
 
-		public VoidDelegate.WithEvent onBeginDrag;
-		public VoidDelegate.WithEvent onEndDrag;
-		public VoidDelegate.WithEvent onDrag;
+		public QVoidDelegate.WithEvent onBeginDrag;
+		public QVoidDelegate.WithEvent onEndDrag;
+		public QVoidDelegate.WithEvent onDrag;
 
 
 		public static UGUIEventListener CheckAndAddListener(GameObject go)
