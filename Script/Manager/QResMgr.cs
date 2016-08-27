@@ -5,7 +5,7 @@ using QFramework;
 
 // 资源管理器，封装开发模式和发布模式
 namespace QFramework {
-	public class ResMgr : QMonoSingleton<ResMgr>,IMgr
+	public class QResMgr : QMonoSingleton<QResMgr>,IMgr
 	{
 		public GameObject LoadUIPrefabSync(string uiName)
 		{
@@ -29,9 +29,8 @@ namespace QFramework {
 		/// <summary>
 		/// /AssetBundles这个要理解一下
 		/// </summary>
-		private ResMgr()
+		private QResMgr()
 		{
-
 			this.loadedAssetBundleLoaderDict = new Dictionary<string, AssetBundleLoader>();
 			this.loadedAssetBundleSceneLoaderDict = new Dictionary<string, AssetBundleSceneLoader>();
 			this.loadingResDict = new Dictionary<string, IResLoader>();
@@ -252,8 +251,6 @@ namespace QFramework {
 		/// <param name="loader">加载器</param>
 		void AddLoadingLoader(IResLoader loader)
 		{
-			
-
 			QLog.Assert ((loader != null), "AddLoadingLoader loader is NULL");
 			QLog.Assert (!this.loadingResDict.ContainsKey (loader.ResName), string.Format ("Already Loading {0}", loader.ResName));
 

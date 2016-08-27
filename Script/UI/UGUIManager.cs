@@ -69,7 +69,7 @@ namespace QFramework.UI {
 
 
 			} else {
-				GameObject prefab = ResMgr.Instance ().LoadUIPrefabSync (layerName);
+				GameObject prefab = QResMgr.Instance ().LoadUIPrefabSync (layerName);
 
 				GameObject uiLayer = Instantiate (prefab);
 				switch (level) {
