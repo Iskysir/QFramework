@@ -12,7 +12,7 @@ using System.Reflection;
 namespace QFramework {
 	public abstract class QSingleton<T> where T : QSingleton<T>
 	{
-		protected static T instance = null;
+		protected static T mInstance = null;
 
 		protected QSingleton()
 		{
@@ -22,7 +22,7 @@ namespace QFramework {
 		{
 
 			get {
-				if (instance == null) {
+				if (mInstance == null) {
 					// 先获取所有非public的构造方法
 					ConstructorInfo[] ctors = typeof(T).GetConstructors (BindingFlags.Instance | BindingFlags.NonPublic);
 					// 从ctors中获取无参的构造方法
@@ -30,11 +30,16 @@ namespace QFramework {
 					if (ctor == null)
 						throw new Exception ("Non-public ctor() not found!");
 					// 调用构造方法
-					instance = ctor.Invoke (null) as T;
+					mInstance = ctor.Invoke (null) as T;
 				}
 
-				return instance;
+				return mInstance;
 			}
+		}
+
+		public void Dispose()
+		{
+			mInstance = null;
 		}
 	}
 }
