@@ -10,7 +10,19 @@ namespace QFramework.PRIVATE {
 	
 	public class QABEditor
 	{
-		[MenuItem("QFramework/AssetBundle/Build")]
+
+		/// <summary>
+		/// 判断路径是否存在
+		/// </summary>
+		public static void CheckDirAndCreate(string dirPath)
+		{
+			if (!Directory.Exists (dirPath)) {
+				Directory.CreateDirectory (dirPath);
+			}
+		}
+
+
+		[MenuItem("QFramework/AB/Build")]
 		public static void BuildAssetBundle()
 		{
 			string outPath = Application.streamingAssetsPath + "/QAB";
@@ -22,7 +34,7 @@ namespace QFramework.PRIVATE {
 			AssetDatabase.Refresh ();
 		}
 
-		[MenuItem("QFramework/AssetBundle/Mark")]
+		[MenuItem("QFramework/AB/Mark")]
 		public static void MarkAssetBundle()
 		{
 			CheckDirAndCreate (Application.streamingAssetsPath + "/QAB");
@@ -72,15 +84,7 @@ namespace QFramework.PRIVATE {
 			QABConfigMgr.Instance.OverrideConfigFile ();
 		}
 
-		/// <summary>
-		/// 判断路径是否存在
-		/// </summary>
-		public static void CheckDirAndCreate(string dirPath)
-		{
-			if (!Directory.Exists (dirPath)) {
-				Directory.CreateDirectory (dirPath);
-			}
-		}
+
 
 		/// <summary>
 		/// 截取相对路径
@@ -134,8 +138,6 @@ namespace QFramework.PRIVATE {
 		{
 			string tmpPath = file.FullName;
 
-			Debug.Log ("tmpPath ==" + tmpPath);
-
 			int assetCount = tmpPath.IndexOf (replacePath);
 
 			assetCount += replacePath.Length + 1;
@@ -169,18 +171,11 @@ namespace QFramework.PRIVATE {
 
 			string assetPath = fullPath.Substring (assetCount, fullPath.Length - assetCount);
 
-//			Debug.LogWarning (assetPath);
 
 			AssetImporter importer = AssetImporter.GetAtPath (assetPath);
 
 
 			importer.assetBundleName = markStr;
-
-//			if (tmpFile.Extension == ".unity") {
-//				importer.assetBundleVariant = "";
-//			} else {
-//				importer.assetBundleVariant = "";
-//			}
 
 			string modelName = "";
 
