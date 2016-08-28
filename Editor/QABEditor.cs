@@ -4,14 +4,16 @@ using UnityEngine;
 using System.IO;
 
 using System.Collections.Generic;
+using QFramework.AB;
 
-namespace QFramework.Editor {
+namespace QFramework.PRIVATE {
+	
 	public class QABEditor
 	{
 		[MenuItem("QFramework/AssetBundle/Build")]
 		public static void BuildAssetBundle()
 		{
-			string outPath = Application.streamingAssetsPath + "/QAssetBundle";
+			string outPath = Application.streamingAssetsPath + "/QAB";
 
 			CheckDirAndCreate (outPath);
 
@@ -23,9 +25,11 @@ namespace QFramework.Editor {
 		[MenuItem("QFramework/AssetBundle/Mark")]
 		public static void MarkAssetBundle()
 		{
+			CheckDirAndCreate (Application.streamingAssetsPath + "/QAB");
+
 			AssetDatabase.RemoveUnusedAssetBundleNames ();
 
-			string path = Application.dataPath + "/Art/Scenes/";
+			string path = Application.dataPath + "/QArt/QAB/";
 
 			DirectoryInfo dir = new DirectoryInfo (path);
 
@@ -39,39 +43,35 @@ namespace QFramework.Editor {
 				{
 					string tmpPath = Path.Combine (path,tmpFile.Name);
 
-					SceneOverView (tmpPath);
+					MarkABDir (tmpPath);
 				}
 			}
 
 			AssetDatabase.Refresh ();
 		}
 
-		public static void SceneOverView(string scenePath)
+		/// <summary>
+		/// 标记ABDir
+		/// </summary>
+		public static void MarkABDir(string scenePath)
 		{
-			string textFileName = "Record.txt";
-
-			string tmpPath = scenePath + textFileName;
-
-			FileStream fs = new FileStream (tmpPath, FileMode.OpenOrCreate);
-
-			StreamWriter bw = new StreamWriter (fs);
-
 			Dictionary<string,string> readDict = new Dictionary<string, string> ();
 
 			ChangeHead (scenePath, readDict);
 
+			QABConfigMgr.Instance.Refresh ();
+
 			foreach (string key in readDict.Keys) 
 			{
-				bw.Write (key);
-				bw.Write (" ");
-				bw.Write (readDict [key]);
-				bw.Write ("\n");
+				if (!string.IsNullOrEmpty (key)) {
+
+					QABConfigMgr.Instance.AddItem (readDict[key]);
+				}
 			}
 
-			bw.Close ();
-
-			fs.Close ();
+			QABConfigMgr.Instance.OverrideConfigFile ();
 		}
+
 		/// <summary>
 		/// 判断路径是否存在
 		/// </summary>
@@ -85,8 +85,6 @@ namespace QFramework.Editor {
 		/// <summary>
 		/// 截取相对路径
 		/// </summary>
-		/// <param name="fullPath">Full path.</param>
-		/// <param name="theWriter">The writer.</param>
 		public static void ChangeHead(string fullPath,Dictionary<string,string> theWriter)
 		{
 			int count = fullPath.IndexOf ("Assets");
@@ -106,8 +104,7 @@ namespace QFramework.Editor {
 				Debug.Log ("this path is null");
 			}
 		}
-
-
+			
 		public static void ListFiles(FileSystemInfo info, string replacePath,Dictionary<string,string> theWriter)
 		{
 			if (!info.Exists) {
@@ -122,7 +119,7 @@ namespace QFramework.Editor {
 				FileInfo file = files [i] as FileInfo;
 
 				// 对于文件的操作
-				if (files != null) 
+				if (file != null) 
 				{
 					ChangeMark (file, replacePath, theWriter);
 				} 
@@ -132,10 +129,7 @@ namespace QFramework.Editor {
 				}
 			}
 		}
-		// 改变物体的 tag
 
-
-		// x计算mart 标记值等于多少
 		public static string GetBundlePath(FileInfo file,string replacePath)
 		{
 			string tmpPath = file.FullName;
@@ -161,7 +155,6 @@ namespace QFramework.Editor {
 
 				return sceneHead + "/" + result [0];
 			} else {
-				// 场景文件所标记
 				return sceneHead;
 			}
 
@@ -176,36 +169,35 @@ namespace QFramework.Editor {
 
 			string assetPath = fullPath.Substring (assetCount, fullPath.Length - assetCount);
 
-			Debug.LogWarning (assetPath);
+//			Debug.LogWarning (assetPath);
 
 			AssetImporter importer = AssetImporter.GetAtPath (assetPath);
 
 
 			importer.assetBundleName = markStr;
 
-			if (tmpFile.Extension == ".unity") {
-				importer.assetBundleVariant = "u3d";
-			} else {
-				importer.assetBundleVariant = "ld";
-			}
+//			if (tmpFile.Extension == ".unity") {
+//				importer.assetBundleVariant = "";
+//			} else {
+//				importer.assetBundleVariant = "";
+//			}
 
-			// Load -- SceneOne/load
 			string modelName = "";
 
 			string[] subMark = markStr.Split ("/".ToCharArray ());
 			if (subMark.Length > 1) {
 				modelName = subMark [1];	
 			} else {
-				// SceneOne -- SceneOne
+				modelName = markStr;
 			}
 
-			// sceneOne/load.ld
-			string modelPath = markStr.ToLower () + "." + importer.assetBundleVariant;
+			string modelPath = markStr.ToLower ();
 
 			if (!theWriter.ContainsKey (modelName)) {
 				theWriter.Add (modelName,modelPath);
 			}
 		}
+
 		public static void ChangeMark(FileInfo tmpFile,string replacePath,Dictionary<string,string> theWriter)
 		{
 			if (tmpFile == null ||  tmpFile.Extension == ".meta") {
