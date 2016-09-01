@@ -2,47 +2,55 @@
 using System.Collections;
 using UnityEngine;
 using System.IO;
-
 using System.Collections.Generic;
 
+using QFramework;
+using QFramework.Editor;
+
+
 namespace QFramework.PRIVATE {
-	
+
+
 	public class QABEditor
 	{
 
-		/// <summary>
-		/// 判断路径是否存在
-		/// </summary>
-		public static void CheckDirAndCreate(string dirPath)
+		[MenuItem("QFramework/AB/Build iOS")]
+		public static void BuildABiOS()
 		{
-			if (!Directory.Exists (dirPath)) {
-				Directory.CreateDirectory (dirPath);
-			}
-		}
 
+			string outputPath = QPath.ABBuildOutPutDir (RuntimePlatform.IPhonePlayer);
 
-		[MenuItem("QFramework/AB/Build")]
-		public static void BuildAssetBundle()
-		{
-			string outPath = Application.streamingAssetsPath + "/QAB";
+			QIO.CreateDirIfNotExists (outputPath);
 
-			CheckDirAndCreate (outPath);
-
-			BuildPipeline.BuildAssetBundles (outPath, 0, EditorUserBuildSettings.activeBuildTarget);
+			BuildPipeline.BuildAssetBundles (outputPath, 0, BuildTarget.iOS);
 
 			AssetDatabase.Refresh ();
 		}
 
+		[MenuItem("QFramework/AB/Build Android")]
+		public static void BuildABAndroid()
+		{
+			string outputPath = QPath.ABBuildOutPutDir (RuntimePlatform.Android);
+				
+			QIO.CreateDirIfNotExists (outputPath);
+
+			BuildPipeline.BuildAssetBundles (outputPath, 0, BuildTarget.Android);
+
+			AssetDatabase.Refresh ();
+		}
+
+
+
 		[MenuItem("QFramework/AB/Mark")]
 		public static void MarkAssetBundle()
 		{
-			CheckDirAndCreate (Application.streamingAssetsPath + "/QAB");
-
 			AssetDatabase.RemoveUnusedAssetBundleNames ();
 
-			string path = Application.dataPath + "/QArt/QAB/";
+			string srcAssetPath = QPath.SrcABDir;
 
-			DirectoryInfo dir = new DirectoryInfo (path);
+			QIO.CreateDirIfNotExists (srcAssetPath);
+
+			DirectoryInfo dir = new DirectoryInfo (srcAssetPath);
 
 			FileSystemInfo[] fileInfos = dir.GetFileSystemInfos ();
 
@@ -52,7 +60,7 @@ namespace QFramework.PRIVATE {
 
 				if (tmpFile is DirectoryInfo) 
 				{
-					string tmpPath = Path.Combine (path,tmpFile.Name);
+					string tmpPath = Path.Combine (srcAssetPath,tmpFile.Name);
 
 					MarkABDir (tmpPath);
 				}
