@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace QFramework {
 	/// <summary>
-	/// 可以根据Futile的QNode来写
+	/// 可以根据Futile的QNode来写,添加消息机制,替代SendMessage
 	/// </summary>
-	public abstract class QBehaviour : MonoBehaviour {
+	public abstract class QMonoBehaviour : MonoBehaviour {
 
 
 		public abstract void ProcessMsg (QMsg tmpMsg);
@@ -37,7 +37,7 @@ namespace QFramework {
 			}
 		}
 
-		public QBehaviour parent;	 				// 父节点 
+		public QMonoBehaviour parent;	 				// 父节点 
 
 		public void setPosition(Vector3 vec3)
 		{
@@ -49,13 +49,13 @@ namespace QFramework {
 			transform.localPosition = new Vector3 (x, y, transform.localPosition.z);
 		}
 
-		public void addChild(QBehaviour child)
+		public void addChild(QMonoBehaviour child)
 		{
 			child.parent = this;
 			child.trans.parent = this.trans;
 		}
 
-		public void addTo(QBehaviour parent)
+		public void addTo(QMonoBehaviour parent)
 		{
 			this.transform.parent = parent.trans;
 			this.parent = parent;
