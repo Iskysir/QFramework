@@ -7,10 +7,9 @@ namespace QFramework {
 	/// </summary>
 	public abstract class QBehaviour : MonoBehaviour {
 
-		/// <summary>
-		/// 处理消息
-		/// </summary>
-		public abstract void ProcessMsg (QMsg msg);
+
+		public abstract void ProcessMsg (QMsg tmpMsg);
+
 
 		/// <summary>
 		/// 短变量,指针而已
