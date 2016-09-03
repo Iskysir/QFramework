@@ -16,7 +16,7 @@ namespace QFramework {
 	//using Thrift.Transport;
 	//
 	//[CustomLuaClass]
-	public class QNetMgr : QMgr
+	public class QNetMgr
 	{
 		private Socket mSocket = null;
 		private Thread mSendThread = null;
