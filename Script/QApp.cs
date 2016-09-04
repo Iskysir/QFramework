@@ -13,8 +13,19 @@ namespace QFramework {
 	/// <summary>
 	/// 全局唯一继承于MonoBehaviour的单例类，保证其他公共模块都以App的生命周期为准
 	/// </summary>
-	public class QApp : QMonoSingleton<QApp>
+	public class QApp : MonoBehaviour
 	{
+
+		/// <summary>
+		/// 组合的方式实现单例的模板
+		/// </summary>
+		/// <value>The instance.</value>
+		public static QApp Instance {
+			get {
+				return QMonoSingletonComponent<QApp>.Instance;
+			}
+		}
+
 		public AppMode mode = AppMode.Developing;
 
 		private QApp() {}
@@ -23,8 +34,6 @@ namespace QFramework {
 		{
 			// 确保不被销毁
 			DontDestroyOnLoad(gameObject);
-
-			mInstance = this;
 
 			// 进入欢迎界面
 			Application.targetFrameRate = 60;
@@ -98,9 +107,9 @@ namespace QFramework {
 				this.onGUI();
 		}
 
-		protected override void OnDestroy() 
+		protected  void OnDestroy() 
 		{
-			base.OnDestroy ();
+			QMonoSingletonComponent<QApp>.Dispose ();
 
 			if (this.onDestroy != null)
 				this.onDestroy();

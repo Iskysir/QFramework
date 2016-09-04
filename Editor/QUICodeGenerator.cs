@@ -132,9 +132,20 @@ public class QUICodeGenerator
 
 		strBuilder.AppendLine("namespace QFramework.UI");
         strBuilder.AppendLine("{");
-        strBuilder.Append("\tpublic class QUIFactory : Singleton<QUIFactory>");
+        strBuilder.Append("\tpublic class QUIFactory");
         strBuilder.AppendLine();
         strBuilder.AppendLine("\t{");
+
+		strBuilder.Append ("\t\t").AppendLine ("public static QUIFactory Instance {");
+		strBuilder.Append ("\t\t\t").AppendLine ("get {");
+		strBuilder.Append ("\t\t\t\t").AppendLine ("return QSingletonComponent<QUIFactory>.Instance;");
+		strBuilder.Append ("\t\t\t").AppendLine ("}");
+		strBuilder.Append ("\t\t").AppendLine ("}");
+
+		strBuilder.Append ("\t\t").AppendLine ("public static void Dispose()");
+		strBuilder.Append ("\t\t").AppendLine ("{");
+		strBuilder.Append ("\t\t\t").AppendLine ("QSingletonComponent<QUIFactory>.Dispose ();");
+		strBuilder.Append ("\t\t").AppendLine ("}");
 
         strBuilder.Append("\t\t").AppendLine("public IUIComponents CreateUIComponents(string strUI)");
         strBuilder.Append("\t\t").AppendLine("{");
@@ -183,16 +194,13 @@ public class QUICodeGenerator
         strBuilder.AppendLine();
         strBuilder.AppendLine("{");
 
-        strBuilder.Append("\t").AppendLine("public void InitField()");
+		strBuilder.Append("\t").AppendLine("public void InitUIComponents()");
         strBuilder.Append("\t").AppendLine("{");
         foreach (KeyValuePair<string, Transform> p in m_dicNameToTrans)
         {
-            //UIManager.Instance.Get<UILogin>("Button").GetComponent<Button>();
             string strUIType = GetUIType(p.Value);
-            strBuilder.AppendFormat("\t\tm_{0}_{1} = QUIManager.Instance.Get<{2}>(\"{3}\").GetComponent<{4}>();\r\n",
-                strUIType, p.Key, strDlg, p.Key, strUIType);
-            //strBuilder.AppendFormat("\tm_{0}_{1} = UIManager.Instance:Get(\"{2}\", \"{3}\"):GetComponent(\"{4}\");\r\n",
-            //    strUIType, p.Key, m_SelectGameObject.name, p.Key, strUIType);
+            strBuilder.AppendFormat("\t\t{0}_{1} = QUIManager.Instance.Get<{2}>(\"{3}\").GetComponent<{4}>();\r\n",
+				p.Key,strUIType, strDlg, p.Key, strUIType);
         }
         strBuilder.Append("\t").AppendLine("}").AppendLine();
 
@@ -200,20 +208,17 @@ public class QUICodeGenerator
         strBuilder.Append("\t").AppendLine("{");
         foreach (KeyValuePair<string, Transform> p in m_dicNameToTrans)
         {
-            //UIManager.Instance.Get<UILogin>("Button").GetComponent<Button>();
             string strUIType = GetUIType(p.Value);
-            strBuilder.AppendFormat("\t\tm_{0}_{1} = null;\r\n",
-                strUIType, p.Key);
-            //strBuilder.AppendFormat("\tm_{0}_{1} = UIManager.Instance:Get(\"{2}\", \"{3}\"):GetComponent(\"{4}\");\r\n",
-            //    strUIType, p.Key, m_SelectGameObject.name, p.Key, strUIType);
+            strBuilder.AppendFormat("\t\t{0}_{1} = null;\r\n",
+				p.Key,strUIType);
         }
         strBuilder.Append("\t").AppendLine("}").AppendLine();
 
         foreach (KeyValuePair<string, Transform> p in m_dicNameToTrans)
         {
             string strUIType = GetUIType(p.Value);
-            strBuilder.AppendFormat("\tpublic {0} m_{1}_{2};\r\n",
-                strUIType, strUIType, p.Key);
+            strBuilder.AppendFormat("\tpublic {0} {1}_{2};\r\n",
+				strUIType,p.Key,strUIType);
         }
 
         strBuilder.AppendLine("}");

@@ -6,8 +6,19 @@ using QFramework;
 // 资源管理器，封装开发模式和发布模式
 namespace QFramework {
 	
-	public class QResMgr : QMonoSingleton<QResMgr>
+	public class QResMgr : MonoBehaviour
 	{
+
+		public static QResMgr Instance {
+			get {
+				return QMonoSingletonComponent<QResMgr>.Instance;
+			}
+		}
+
+		public void OnDestroy()
+		{
+			QMonoSingletonComponent<QResMgr>.Dispose ();
+		}
 
 		/// <summary>
 		/// 缓存的 AssetBundle

@@ -4,7 +4,13 @@ using System.Collections.Generic;
 
 namespace QFramework {
 
-	public class QSoundMgr : QMonoSingleton<QSoundMgr> {
+	public class QSoundMgr : MonoBehaviour {
+
+		public static QSoundMgr Instance {
+			get {
+				return QMonoSingletonComponent<QSoundMgr>.Instance;
+			}
+		}
 
 		private AudioSource musicPlayer;										// 音乐播放器
 		private AudioListener listener;											// 音监听器
@@ -186,6 +192,12 @@ namespace QFramework {
 			for (int i = 0; i < audios.Length; i++) {
 				audios [i].volume = 0.0f;
 			}
+		}
+
+
+		void OnDestroy()
+		{
+			QMonoSingletonComponent<QSoundMgr>.Dispose ();
 		}
 	}
 
