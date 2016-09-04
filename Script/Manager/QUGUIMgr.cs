@@ -161,6 +161,10 @@ namespace QFramework.UI {
 		[SerializeField] Transform mCanvasGuideTrans;
 		[SerializeField] Camera mUICamera;
 
+		public QUIBehaviour CreateUI  (string asd,CanvasLevel level,object uiData = null) {
+			return null;
+		}
+			
 		/// <summary>
 		/// 增加UI层
 		/// </summary>
