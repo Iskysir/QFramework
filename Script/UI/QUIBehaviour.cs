@@ -1,0 +1,317 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Events;
+using QFramework;
+using UnityEngine.UI;
+
+namespace QFramework.UI {
+	public class QUIBehaviour : QMonoBehaviour {
+
+		void Awake()
+		{
+			OnAwake();
+		}
+
+		// Use this for initialization
+		void Start()
+		{
+			OnStart();
+		}
+
+		// Update is called once per frame
+		void Update()
+		{
+			OnUpdate();
+		}
+
+		void FixUpdate()
+		{
+			OnFixedUpdate();
+		}
+
+		void OnDestroy()
+		{
+			DestroyUI();
+			if (mDicUINameToTrans != null)
+			{
+				mDicUINameToTrans.Clear();
+			}
+			if (m_uiBehavior != null)
+			{
+				m_uiBehavior.Clear();
+			}
+			UnRegisterSelf();
+			//			UIManager.Instance.InternalRemoveMenu(this);
+			Debug.Log(name + " unLoad Success");
+		}
+
+		public void Init()
+		{
+			InnerInit();
+			RegisterUIEvent();
+		}
+
+		public Transform Get(string strUIName)
+		{
+			if (mDicUINameToTrans.ContainsKey(strUIName))
+			{
+				return mDicUINameToTrans[strUIName];
+			}
+			return null;
+		}
+
+		public void Close()
+		{
+			SetVisible(false);
+			OnClose();
+			if (mUnloadAll == false)
+			{
+				//                PTResourceManager.UnloadAssetBundle(this.name.ToLower(), false);
+			}
+		}
+
+		public void SetVisible(bool visible)
+		{
+			this.gameObject.SetActive(visible);
+			if(visible)
+			{
+				OnShow();
+			}
+		}
+
+		void InnerInit()
+		{
+			FindAllCanHandleWidget(this.transform);
+			//			m_uiBehavior = UIFactory.Instance.CreateUIBehavior(this.name);
+			m_uiBehavior.InitUIComponents();
+			InitUI();
+			SetVisible(true);
+		}
+
+		protected virtual void OnAwake() { }
+		protected virtual void OnStart() { }
+		protected virtual void InitUI() { }
+		//        protected virtual void ProcessMsg(MsgEventArgs args) { }
+		protected virtual void RegisterUIEvent() { }
+		protected virtual void OnUpdate() { }
+		protected virtual void OnFixedUpdate() { }
+		protected virtual void OnClose() { }
+		protected virtual void DestroyUI() { }
+
+		protected void SetUIBehavior(IUIComponents uiChild)
+		{
+			m_uiBehavior = uiChild;
+			m_uiBehavior.InitUIComponents();
+		}
+
+		protected void RegisterSelf(ushort[] msgIds)
+		{
+			mMsgIds = msgIds;
+			for (int i = 0; i < msgIds.Length; i++)
+			{
+				//                UIManager.Instance.RegisterMsg(msgIds[i], ProcessMsg);
+			}
+		}
+
+		//        protected void SendMsg(MsgEventArgs args)
+		//        {
+		//            args.Sender = this.name;
+		//            UIManager.Instance.SendMsg(args);
+		//        }
+
+		protected void UnRegisterSelf()
+		{
+			if (mMsgIds != null)
+			{
+				for (int i = 0; i < mMsgIds.Length; i++)
+				{
+					//                    UIManager.Instance.UnRegisterMsg(mMsgIds[i], ProcessMsg);
+				}
+			}
+		}
+
+		void FindAllCanHandleWidget(Transform trans)
+		{
+			for (int i = 0; i < trans.childCount; i++)
+			{
+				Transform childTrans = trans.GetChild(i);
+				QFramework.UI.QUIMark uiMark = childTrans.GetComponent<QFramework.UI.QUIMark>();
+				if (null != uiMark)
+				{
+					if (mDicUINameToTrans.ContainsKey(childTrans.name))
+					{
+						Debug.LogError("Repeat Id: " + childTrans.name);
+					}
+					else
+					{
+						mDicUINameToTrans.Add(childTrans.name, childTrans);
+					}
+				}
+				FindAllCanHandleWidget(childTrans);
+			}
+		}
+
+		protected virtual bool mUnloadAll
+		{
+			get { return false; }
+		}
+		protected ushort[] mMsgIds = null;
+		protected IUIComponents m_uiBehavior = null;
+		private Dictionary<string, Transform> mDicUINameToTrans = new Dictionary<string, Transform>();
+
+
+
+		// 把空间注册到UIManager
+		// 可以直接查找 物体把物体本身注册到UIManager
+		//		void Awake()
+		//		{
+		//			UIManager.Instance.RegisterGameObject(name,gameObject);
+		//		}
+
+		public void AddButtonListener(UnityAction action)
+		{
+			if (null != action)
+			{
+				Button btn = transform.GetComponent<Button> ();
+
+				btn.onClick.AddListener (action);
+			}
+		}
+
+
+		public void RemoveButtonListener(UnityAction action)
+		{
+			if (null != action) 
+			{
+				Button btn = transform.GetComponent<Button> ();
+
+				btn.onClick.RemoveListener (action);
+			}
+		}
+
+
+		public void AddSliderListener(UnityAction<float> action)
+		{
+			if (null != action) 
+			{
+				Slider slider = transform.GetComponent<Slider> ();
+
+				slider.onValueChanged.AddListener (action);
+			}
+		}
+
+		public void RemoveSliderListener(UnityAction<float> action)
+		{
+			if (null != action) 
+			{
+				Slider slider = transform.GetComponent<Slider> ();
+
+				slider.onValueChanged.RemoveListener (action);
+			}
+		}
+
+		public void AddInputListener(UnityAction<string> action)
+		{
+			if (null != action) 
+			{
+				InputField btn = transform.GetComponent<InputField> ();
+
+				btn.onValueChanged.AddListener (action);
+			}
+		}
+
+		public override void ProcessMsg (QMsg tmpMsg)
+		{
+			//		throw new System.NotImplementedException ();
+		}
+
+
+		public void RegisterSelf(QMonoBehaviour mono,params ushort[] msgs)
+		{
+			UIManager.Instance.RegisterMsg(mono,msgIds);
+		}
+
+		public void UnRegisterSelf(QMonoBehaviour mono,params ushort[] msg)
+		{
+			UIManager.Instance.UnRegisterMsg(mono,msgIds);
+		}
+
+		public void SendMsg(QMsg msg)
+		{
+			UIManager.Instance.SendMsg(msg);
+		}
+		protected ushort[] msgIds;
+
+		void OnDestory()
+		{
+			if (msgIds != null)
+			{
+				UnRegisterSelf(this,msgIds);
+			}
+		}
+
+
+		#region 原来自己的框架
+		public void Enter(object uiData)
+		{
+			gameObject.SetActive (false);
+			OnEnter (uiData);
+		}
+
+		/// <summary>
+		/// 资源加载之后用
+		/// </summary>
+		protected virtual void OnEnter(object uiData)
+		{
+			Debug.LogWarning ("On Enter:" + name);
+		}
+
+
+		public void Show()
+		{
+			OnShow ();
+		}
+
+		/// <summary>
+		/// 显示时候用,或者,Active为True
+		/// </summary>
+		protected virtual void OnShow()
+		{
+			gameObject.SetActive (true);
+			Debug.LogWarning ("On Show:" + name);
+
+		}
+
+
+		public void Hide()
+		{
+			OnHide ();
+		}
+
+		/// <summary>
+		/// 隐藏时候调用,即将删除 或者,Active为False
+		/// </summary>
+		protected virtual void OnHide()
+		{
+			gameObject.SetActive (false);
+			Debug.LogWarning ("On Hide:" + name);
+		}
+
+		public void Exit()
+		{
+			OnExit ();
+		}
+
+		/// <summary>
+		/// 删除时候调用
+		/// </summary>
+		protected virtual void OnExit()
+		{
+			Debug.LogWarning ("On Exit:" + name);
+		}
+		#endregion
+
+	}
+
+}

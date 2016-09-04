@@ -15,6 +15,8 @@ namespace QFramework {
 		public delegate void WithParams(params object[] paramList);
 
 		public delegate void WithEvent(BaseEventData data);
+
+		public delegate void WithObj(Object obj);
 	}
 
 }

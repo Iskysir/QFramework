@@ -43,7 +43,7 @@ namespace QFramework.UI {
 
 
 		[SerializeField]
-		Dictionary<string,UILayer> mAllLayers = new Dictionary<string, UILayer> ();
+		Dictionary<string,QUIBehaviour> mAllLayers = new Dictionary<string, QUIBehaviour> ();
 
 		[SerializeField] Transform mCanvasTopTrans;
 		[SerializeField] Transform mCanvasMidTrans;
@@ -55,7 +55,7 @@ namespace QFramework.UI {
 		/// <summary>
 		/// 增加UI层
 		/// </summary>
-		public UILayer AddLayer(string layerName,CanvasLevel level,object uiData = null) {
+		public QUIBehaviour AddUIBehaviour(string layerName,CanvasLevel level,object uiData = null) {
 
 			if (mAllLayers.ContainsKey (layerName)) {
 
@@ -71,35 +71,35 @@ namespace QFramework.UI {
 			} else {
 				GameObject prefab = QResMgr.Instance.LoadUIPrefabSync (layerName);
 
-				GameObject uiLayer = Instantiate (prefab);
+				GameObject QUIBehaviour = Instantiate (prefab);
 				switch (level) {
 				case CanvasLevel.Top:
-					uiLayer.transform.SetParent (mCanvasTopTrans);
+					QUIBehaviour.transform.SetParent (mCanvasTopTrans);
 					break;
 				case CanvasLevel.Middle:
-					uiLayer.transform.SetParent (mCanvasMidTrans);
+					QUIBehaviour.transform.SetParent (mCanvasMidTrans);
 					break;
 				case CanvasLevel.Bottom:
-					uiLayer.transform.SetParent (mCanvasBottomTrans);
+					QUIBehaviour.transform.SetParent (mCanvasBottomTrans);
 					break;
 				case CanvasLevel.Root:
-					uiLayer.transform.SetParent (transform);
+					QUIBehaviour.transform.SetParent (transform);
 					break;
 				case CanvasLevel.MainCamera:
-					uiLayer.transform.SetParent (Camera.main.transform);
+					QUIBehaviour.transform.SetParent (Camera.main.transform);
 					break;
 
 				}
 
 
-				uiLayer.transform.localPosition = Vector3.zero;
-				uiLayer.transform.localEulerAngles = Vector3.zero;
-				uiLayer.transform.localScale = Vector3.one;
+				QUIBehaviour.transform.localPosition = Vector3.zero;
+				QUIBehaviour.transform.localEulerAngles = Vector3.zero;
+				QUIBehaviour.transform.localScale = Vector3.one;
 
-				uiLayer.gameObject.name = layerName;
+				QUIBehaviour.gameObject.name = layerName;
 
-				mAllLayers.Add (layerName, uiLayer.GetComponent<UILayer> ());
-				uiLayer.GetComponent<UILayer> ().Enter (uiData);
+				mAllLayers.Add (layerName, QUIBehaviour.GetComponent<QUIBehaviour> ());
+				QUIBehaviour.GetComponent<QUIBehaviour> ().Enter (uiData);
 			}
 
 
@@ -109,7 +109,7 @@ namespace QFramework.UI {
 		/// <summary>
 		/// 删除掉层
 		/// </summary>
-		public void DeleteLayer(string layerName)
+		public void DeleteUIBehaviour(string layerName)
 		{
 			if (mAllLayers.ContainsKey (layerName)) 
 			{
@@ -124,7 +124,7 @@ namespace QFramework.UI {
 		/// 显示UI层
 		/// </summary>
 		/// <param name="layerName">Layer name.</param>
-		public void ShowLayer(string layerName)
+		public void ShowUIBehaviour(string layerName)
 		{
 			if (mAllLayers.ContainsKey(layerName))
 			{
@@ -137,7 +137,7 @@ namespace QFramework.UI {
 		/// 隐藏UI层
 		/// </summary>
 		/// <param name="layerName">Layer name.</param>
-		public void HideLayer(string layerName)
+		public void HideUIBehaviour(string layerName)
 		{
 			if (mAllLayers.ContainsKey (layerName)) 
 			{
@@ -149,7 +149,7 @@ namespace QFramework.UI {
 		/// <summary>
 		/// 删除所有UI层
 		/// </summary>
-		public void DeleteAllLayer()
+		public void DeleteAllUIBehaviour()
 		{
 			foreach (var layer in mAllLayers) 
 			{
@@ -163,7 +163,7 @@ namespace QFramework.UI {
 
 		/// <summary>
 		/// 获取所有UI层
-		public T GetLayer<T>(string layerName)
+		public T GetUIBehaviour<T>(string layerName)
 		{
 			if (mAllLayers.ContainsKey (layerName)) 
 			{

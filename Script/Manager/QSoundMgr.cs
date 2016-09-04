@@ -3,17 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace QFramework {
-	/// <summary>
-	/// 音效管理器
-	/// </summary>
-	public enum SoundStyle {
-		Async,  // 异步: 同时可以播放很多歌
-		Sync,	// 同步: 只能播放一个
-	}
 
 	public class QSoundMgr : QMonoSingleton<QSoundMgr> {
 
-//		private List<AudioSource> clipPlayers = new List<AudioSource>();		// 音效播放器
 		private AudioSource musicPlayer;										// 音乐播放器
 		private AudioListener listener;											// 音监听器
 		private string mCurClipName;											// 当前的音效名字
@@ -22,7 +14,7 @@ namespace QFramework {
 
 		public AudioClip[] clips = new AudioClip[SOUND.COUNT];					// 多少种Clips
 
-		public AudioClip[] musicClips = new AudioClip[MUSIC.COUNT];				// 背景音乐分离出来
+		public Dictionary<string,AudioClip> musicClips = new Dictionary<string,AudioClip> ();				// 背景音乐分离出来
 		public int soundState = SOUND.ON;
 		public List<AudioSource>[] playersForClipId = new List<AudioSource>[SOUND.COUNT];	// 音效播放器
 
@@ -50,16 +42,17 @@ namespace QFramework {
 		{
 			QTest.TimeBegan (path);
 
-			QResMgr.Instance.LoadRes (path, delegate(string resName, Object resObj) {
+			QResMgr.Instance.LoadRes (QAB.SOUND.BUNDLENAME, path,delegate(Object resObj) {
 				if (resObj)
 				{
-					
+
 					Debug.LogWarning ("loaded: " + path + " " + id.ToString() + "time:" + QTest.TimeStop(path));
 
 					clips[id] = resObj as AudioClip;
 					playersForClipId[id][0].clip = clips[id];
 				}
-			}); 
+			});
+
 		}
 
 		public void PlayClipAsync(int id,bool loop = false)
@@ -113,12 +106,12 @@ namespace QFramework {
 			}
 		}
 
-		public void PlayMusic(int id,bool loop = true)
+		public void PlayMusic(string name,bool loop = true)
 		{
-			Debug.LogWarning (id + "" + loop);
+			Debug.LogWarning (name + "" + loop);
 
 			musicPlayer.loop = loop;
-			musicPlayer.clip = musicClips [id];
+			musicPlayer.clip = musicClips [name];
 			if (soundState == SOUND.ON) {
 				musicPlayer.volume = 1.0f;
 			} else {
@@ -128,25 +121,19 @@ namespace QFramework {
 
 		}
 
-		public void PreloadMusic(string path,int id )
+		public void PreloadMusic(string name)
 		{
-			QTest.TimeBegan (path);
 
-			QResMgr.Instance.LoadRes (path, delegate(string resName, Object resObj) {
+			QResMgr.Instance.LoadRes (QAB.SOUND.BUNDLENAME,name, delegate(Object resObj) {
 				if (resObj)
 				{
-					Debug.LogWarning ("loaded: " + path + " " + id.ToString() + "time:" + QTest.TimeStop(path));
+					Debug.LogWarning ("loaded: " + name + " " + name.ToString());
 
-					musicClips[id] = resObj as AudioClip;
+					musicClips[name] = resObj as AudioClip;
 				}
 			}); 
 		}
 
-		public void LoadMusicSync(string path,int id)
-		{
-			var obj = Resources.Load (path);
-			musicClips [id] = obj as AudioClip;
-		}
 
 		public void LoadSoundSync(string path,int id)
 		{

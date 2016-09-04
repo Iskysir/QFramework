@@ -22,7 +22,7 @@ namespace QFramework.PRIVATE {
 
 			QIO.CreateDirIfNotExists (outputPath);
 
-			BuildPipeline.BuildAssetBundles (outputPath, 0, BuildTarget.iOS);
+			QABBuilder.BuildAssetBundles (BuildTarget.iOS);
 
 			AssetDatabase.Refresh ();
 		}
@@ -34,9 +34,10 @@ namespace QFramework.PRIVATE {
 				
 			QIO.CreateDirIfNotExists (outputPath);
 
-			BuildPipeline.BuildAssetBundles (outputPath, 0, BuildTarget.Android);
+			QABBuilder.BuildAssetBundles (BuildTarget.Android);
 
 			AssetDatabase.Refresh ();
+
 		}
 
 
@@ -181,7 +182,7 @@ namespace QFramework.PRIVATE {
 
 			AssetImporter importer = AssetImporter.GetAtPath (assetPath);
 
-
+//			Debug.LogError (markStr + ":" + assetPath);
 			importer.assetBundleName = markStr;
 
 			string modelName = "";
