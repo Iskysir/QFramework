@@ -37,18 +37,18 @@ namespace QFramework.UI {
 			{
 				mDicUINameToTrans.Clear();
 			}
-			if (m_uiBehavior != null)
+			if (mIComponents != null)
 			{
-				m_uiBehavior.Clear();
+				mIComponents.Clear();
 			}
 			UnRegisterSelf();
 			//			UIManager.Instance.InternalRemoveMenu(this);
 			Debug.Log(name + " unLoad Success");
 		}
 
-		public void Init()
+		public void Init(object uiData = null)
 		{
-			InnerInit();
+			InnerInit(uiData);
 			RegisterUIEvent();
 		}
 
@@ -80,18 +80,18 @@ namespace QFramework.UI {
 			}
 		}
 
-		void InnerInit()
+		void InnerInit(object uiData = null)
 		{
 			FindAllCanHandleWidget(this.transform);
-			//			m_uiBehavior = UIFactory.Instance.CreateUIBehavior(this.name);
-			m_uiBehavior.InitUIComponents();
-			InitUI();
+			mIComponents = QUIFactory.Instance.CreateUIComponents(this.name);
+			mIComponents.InitUIComponents();
+			InitUI(uiData);
 			SetVisible(true);
 		}
 
 		protected virtual void OnAwake() { }
 		protected virtual void OnStart() { }
-		protected virtual void InitUI() { }
+		protected virtual void InitUI(object uiData = null) { }
 		//        protected virtual void ProcessMsg(MsgEventArgs args) { }
 		protected virtual void RegisterUIEvent() { }
 		protected virtual void OnUpdate() { }
@@ -101,8 +101,8 @@ namespace QFramework.UI {
 
 		protected void SetUIBehavior(IUIComponents uiChild)
 		{
-			m_uiBehavior = uiChild;
-			m_uiBehavior.InitUIComponents();
+			mIComponents = uiChild;
+			mIComponents.InitUIComponents();
 		}
 
 		protected void RegisterSelf(ushort[] msgIds)
@@ -157,7 +157,7 @@ namespace QFramework.UI {
 			get { return false; }
 		}
 		protected ushort[] mMsgIds = null;
-		protected IUIComponents m_uiBehavior = null;
+		protected IUIComponents mIComponents = null;
 		private Dictionary<string, Transform> mDicUINameToTrans = new Dictionary<string, Transform>();
 
 
@@ -229,17 +229,17 @@ namespace QFramework.UI {
 
 		public void RegisterSelf(QMonoBehaviour mono,params ushort[] msgs)
 		{
-			UIManager.Instance.RegisterMsg(mono,msgIds);
+			QUGUIMgr.Instance.RegisterMsg(mono,msgIds);
 		}
 
 		public void UnRegisterSelf(QMonoBehaviour mono,params ushort[] msg)
 		{
-			UIManager.Instance.UnRegisterMsg(mono,msgIds);
+			QUGUIMgr.Instance.UnRegisterMsg(mono,msgIds);
 		}
 
 		public void SendMsg(QMsg msg)
 		{
-			UIManager.Instance.SendMsg(msg);
+			QUGUIMgr.Instance.SendMsg(msg);
 		}
 		protected ushort[] msgIds;
 

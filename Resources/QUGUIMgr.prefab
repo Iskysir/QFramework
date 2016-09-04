@@ -68,9 +68,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 458256}
-  - 114: {fileID: 11419274}
+  - 114: {fileID: 114000010513435988}
   m_Layer: 5
-  m_Name: UGUIManager
+  m_Name: QUGUIMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -212,23 +212,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156694}
   m_Enabled: 1
---- !u!114 &11419274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47715df5d25564388b95f3561d449131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCanvasTopTrans: {fileID: 22429106}
-  mCanvasMidTrans: {fileID: 22460862}
-  mCanvasBottomTrans: {fileID: 22490276}
-  mCanvasTrans: {fileID: 22469190}
-  mCanvasGuideTrans: {fileID: 0}
-  mUICamera: {fileID: 2096694}
 --- !u!114 &11446812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -429,3 +412,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 155994}
   m_IsPrefabParent: 1
+--- !u!114 &114000010513435988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95699b1feb97a4f3c9bea3eac058af04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  mCanvasTopTrans: {fileID: 0}
+  mCanvasMidTrans: {fileID: 0}
+  mCanvasBottomTrans: {fileID: 0}
+  mCanvasTrans: {fileID: 0}
+  mCanvasGuideTrans: {fileID: 0}
+  mUICamera: {fileID: 0}

@@ -199,7 +199,7 @@ public class QUICodeGenerator
         foreach (KeyValuePair<string, Transform> p in m_dicNameToTrans)
         {
             string strUIType = GetUIType(p.Value);
-            strBuilder.AppendFormat("\t\t{0}_{1} = QUIManager.Instance.Get<{2}>(\"{3}\").GetComponent<{4}>();\r\n",
+			strBuilder.AppendFormat("\t\t{0}_{1} = QUGUIMgr.Instance.Get<{2}>(\"{3}\").GetComponent<{4}>();\r\n",
 				p.Key,strUIType, strDlg, p.Key, strUIType);
         }
         strBuilder.Append("\t").AppendLine("}").AppendLine();

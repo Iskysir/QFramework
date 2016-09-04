@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using QFramework;
+using QFramework.UI;
 
 namespace QFramework {
-	public enum AppMode {
+	public enum QAppMode {
 		Developing,
 		QA,
 		Release
@@ -26,7 +27,7 @@ namespace QFramework {
 			}
 		}
 
-		public AppMode mode = AppMode.Developing;
+		public QAppMode mode = QAppMode.Developing;
 
 		private QApp() {}
 
@@ -54,18 +55,37 @@ namespace QFramework {
 
 			// 日志输出 
 			var log =  QLog.Instance;
+
 			var console = QConsole.Instance;
 
-			yield return GameManager.Instance.Init ();
+			// 初始化框架
+			yield return QFramework.Instance.Init ();
+
+
+			yield return QUGUIMgr.Init ();
+
+			yield return GameMgr.Instance.Init ();
+
+			// 加载配置表和固定的数据
+			yield return ConfigManager.Instance.Init();
+
+			// 初始化内存数据,可更改的数据
+			yield return InfoManager.Instance.Init ();
+
+			// 音频资源加载
+			yield return SoundManager.Instance.Init();
+
+			yield return QResMgr.Instance.LoadAB (QAB.SOUND.BUNDLENAME);
+
 
 			// 进入测试逻辑
-			if (QApp.Instance.mode == AppMode.Developing) {
+			if (QApp.Instance.mode == QAppMode.Developing) {
 
 				yield return GetComponent<ITestEntry> ().Launch ();
 
 				// 进入正常游戏逻辑
 			} else {
-				yield return GameManager.Instance.Launch ();
+				yield return GameMgr.Instance.Launch ();
 
 			}
 
