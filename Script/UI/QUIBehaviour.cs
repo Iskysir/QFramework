@@ -8,34 +8,12 @@ using UnityEngine.UI;
 namespace QFramework.UI {
 	public class QUIBehaviour : QMonoBehaviour {
 
-		void Awake()
-		{
-			OnAwake();
-		}
-
-		// Use this for initialization
-		void Start()
-		{
-			OnStart();
-		}
-
-		// Update is called once per frame
-		void Update()
-		{
-			OnUpdate();
-		}
-
-		void FixUpdate()
-		{
-			OnFixedUpdate();
-		}
-
 		void OnDestroy()
 		{
 			DestroyUI();
-			if (mDicUINameToTrans != null)
+			if (mUIComponentsDic != null)
 			{
-				mDicUINameToTrans.Clear();
+				mUIComponentsDic.Clear();
 			}
 			if (mIComponents != null)
 			{
@@ -52,11 +30,11 @@ namespace QFramework.UI {
 			RegisterUIEvent();
 		}
 
-		public Transform Get(string strUIName)
+		public Transform Get(string behaivourName)
 		{
-			if (mDicUINameToTrans.ContainsKey(strUIName))
+			if (mUIComponentsDic.ContainsKey(behaivourName))
 			{
-				return mDicUINameToTrans[strUIName];
+				return mUIComponentsDic[behaivourName];
 			}
 			return null;
 		}
@@ -92,7 +70,6 @@ namespace QFramework.UI {
 		protected virtual void OnAwake() { }
 		protected virtual void OnStart() { }
 		protected virtual void InitUI(object uiData = null) { }
-		//        protected virtual void ProcessMsg(MsgEventArgs args) { }
 		protected virtual void RegisterUIEvent() { }
 		protected virtual void OnUpdate() { }
 		protected virtual void OnFixedUpdate() { }
@@ -136,16 +113,16 @@ namespace QFramework.UI {
 			for (int i = 0; i < trans.childCount; i++)
 			{
 				Transform childTrans = trans.GetChild(i);
-				QFramework.UI.QUIMark uiMark = childTrans.GetComponent<QFramework.UI.QUIMark>();
+				QUIMark uiMark = childTrans.GetComponent<QUIMark>();
 				if (null != uiMark)
 				{
-					if (mDicUINameToTrans.ContainsKey(childTrans.name))
+					if (mUIComponentsDic.ContainsKey(childTrans.name))
 					{
 						Debug.LogError("Repeat Id: " + childTrans.name);
 					}
 					else
 					{
-						mDicUINameToTrans.Add(childTrans.name, childTrans);
+						mUIComponentsDic.Add(childTrans.name, childTrans);
 					}
 				}
 				FindAllCanHandleWidget(childTrans);
@@ -158,7 +135,7 @@ namespace QFramework.UI {
 		}
 		protected ushort[] mMsgIds = null;
 		protected IUIComponents mIComponents = null;
-		private Dictionary<string, Transform> mDicUINameToTrans = new Dictionary<string, Transform>();
+		private Dictionary<string, Transform> mUIComponentsDic = new Dictionary<string, Transform>();
 
 
 
@@ -221,9 +198,9 @@ namespace QFramework.UI {
 			}
 		}
 
-		public override void ProcessMsg (QMsg tmpMsg)
+		public override void ProcessMsg (QMsg msg)
 		{
-			//		throw new System.NotImplementedException ();
+			throw new System.NotImplementedException ();
 		}
 
 

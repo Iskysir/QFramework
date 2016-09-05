@@ -11,7 +11,7 @@ public class QUICodeGenerator
     [MenuItem("Assets/Create UICode")]
     static public void CreateUICode()
     {
-        m_Instance.CreateCode(Selection.activeGameObject);
+		m_Instance.CreateCode(Selection.activeGameObject);
     }
 
     private void CreateCode(GameObject go)
@@ -32,7 +32,7 @@ public class QUICodeGenerator
             }
             m_dicNameToTrans = new Dictionary<string, Transform>();
             FindAllMarkTrans(clone.transform);
-            CreateUIObjectCode();
+            CreateUIComponentsCode();
 
             GameObject.DestroyImmediate(clone);
         }
@@ -60,7 +60,7 @@ public class QUICodeGenerator
         }
     }
 
-    private void CreateUIObjectCode()
+    private void CreateUIComponentsCode()
     {
         if (null != m_SelectGameObject)
         {
@@ -75,20 +75,23 @@ public class QUICodeGenerator
                 strBuilder.AppendLine("using System.Collections.Generic;");
                 strBuilder.AppendLine("using UnityEngine;");
                 strBuilder.AppendLine("using UnityEngine.UI;");
-				strBuilder.AppendLine("using QFramework;").AppendLine();
-                strBuilder.AppendLine("using QFramework.UI;").AppendLine();
+				strBuilder.AppendLine ("using QFramework;");
+				strBuilder.AppendLine("using QFramework.UI;");
+				strBuilder.AppendLine("using QFramework.Event;");
+				strBuilder.AppendLine("using QFramework.Extend;").AppendLine();
 
                 strBuilder.AppendFormat("public class {0} : QUIBehaviour", strDlg);
                 strBuilder.AppendLine();
                 strBuilder.AppendLine("{");
-                strBuilder.Append("\t").AppendLine("protected override void InitUI()");
+				strBuilder.Append("\t").AppendLine("protected override void InitUI(object uiData = null)");
                 strBuilder.Append("\t").AppendLine("{");
-                strBuilder.Append("\t").Append("\t").AppendLine("mUIComponents = mUIBaseComponents as " + strDlg + "Components;");
+				strBuilder.Append("\t").Append("\t").AppendLine("mUIComponents = mIComponents as " + strDlg + "Components;");
                 strBuilder.Append("\t").Append("\t").AppendLine("//please add init code here");
                 strBuilder.Append("\t").AppendLine("}");
-                strBuilder.Append("\t").AppendLine("protected override void ProcessMsg(MsgEventArgs args)");
-                strBuilder.Append("\t").AppendLine("{");
-                strBuilder.Append("\t").AppendLine("}");
+				strBuilder.Append("\t").AppendLine("public override void ProcessMsg (QMsg msg)");
+				strBuilder.Append("\t").AppendLine("{");
+				strBuilder.Append("\t\t").AppendLine("throw new System.NotImplementedException ();");
+				strBuilder.Append("\t").AppendLine("}");
                 strBuilder.Append("\t").AppendLine("protected override void RegisterUIEvent()");
                 strBuilder.Append("\t").AppendLine("{");
                 strBuilder.Append("\t").AppendLine("}");
@@ -100,7 +103,7 @@ public class QUICodeGenerator
                 strBuilder.Append("\t").AppendLine("}").AppendLine();
                 strBuilder.Append("\t").AppendLine("private void ShowLog(string content)");
                 strBuilder.Append("\t").AppendLine("{");
-                strBuilder.Append("\t\t").AppendLine("DebugUtils.Log(\"[\" + strDlg + \":]\" + content);");
+				strBuilder.Append("\t\t").AppendFormat("Debug.Log(\"[ {0}:]\" + content);",strDlg).AppendLine();
                 strBuilder.Append("\t").AppendLine("}").AppendLine();
 
                 //CreateUIObjectCode(ref strBuilder); //add properties
@@ -135,7 +138,7 @@ public class QUICodeGenerator
         strBuilder.Append("\tpublic class QUIFactory");
         strBuilder.AppendLine();
         strBuilder.AppendLine("\t{");
-
+		strBuilder.Append ("\t\t").AppendLine ("private QUIFactory() {}").AppendLine();
 		strBuilder.Append ("\t\t").AppendLine ("public static QUIFactory Instance {");
 		strBuilder.Append ("\t\t\t").AppendLine ("get {");
 		strBuilder.Append ("\t\t\t\t").AppendLine ("return QSingletonComponent<QUIFactory>.Instance;");
@@ -177,9 +180,9 @@ public class QUICodeGenerator
         sw.Close();
     }
 
-    private void CreateUIBehaviorCode(string strDlg)
+	private void CreateUIBehaviorCode(string behaviourName)
     {
-		string strFilePath = string.Format("{0}/{1}.cs", GetScriptsPath(), strDlg + "retChildren");
+		string strFilePath = string.Format("{0}/{1}.cs", GetScriptsPath(), behaviourName + "Components");
         StreamWriter sw = new StreamWriter(strFilePath, false, Encoding.UTF8);
         StringBuilder strBuilder = new StringBuilder();
 
@@ -190,7 +193,7 @@ public class QUICodeGenerator
 		strBuilder.AppendLine("using QFramework;");
 		strBuilder.AppendLine("using QFramework.UI;");
 
-		strBuilder.AppendFormat("public class {0}Components : IUIComponents", strDlg);
+		strBuilder.AppendFormat("public class {0}Components : IUIComponents", behaviourName);
         strBuilder.AppendLine();
         strBuilder.AppendLine("{");
 
@@ -200,7 +203,7 @@ public class QUICodeGenerator
         {
             string strUIType = GetUIType(p.Value);
 			strBuilder.AppendFormat("\t\t{0}_{1} = QUGUIMgr.Instance.Get<{2}>(\"{3}\").GetComponent<{4}>();\r\n",
-				p.Key,strUIType, strDlg, p.Key, strUIType);
+				p.Key,strUIType, behaviourName, p.Key, strUIType);
         }
         strBuilder.Append("\t").AppendLine("}").AppendLine();
 
@@ -262,7 +265,7 @@ public class QUICodeGenerator
 
     private string GetUIPrefabPath()
     {
-        return Application.dataPath + "/QArt/UIPrefab";
+        return Application.dataPath + "/QArt/QAB/UIPrefab";
     }
 
     private GameObject m_SelectGameObject = null;

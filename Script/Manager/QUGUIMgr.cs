@@ -46,19 +46,19 @@ namespace QFramework.UI {
 		public void CloseUI<T>() where T : QUIBehaviour
 		{
 			string strDlg = typeof(T).ToString();
-			if (mDicNameToUIObject.ContainsKey(strDlg))
+			if (mAllUIBehaviour.ContainsKey(strDlg))
 			{
 				//                DebugUtils.Log(strDlg + " UnLoad Success");
-				mDicNameToUIObject[strDlg].Close();
+				mAllUIBehaviour[strDlg].Close();
 			}
 		}
 
 		public void CloseAllUI()
 		{
 			List<QUIBehaviour> listHandler = new List<QUIBehaviour>();
-			foreach (string key in mDicNameToUIObject.Keys)
+			foreach (string key in mAllUIBehaviour.Keys)
 			{
-				listHandler.Add(mDicNameToUIObject[key]);
+				listHandler.Add(mAllUIBehaviour[key]);
 			}
 
 			for (int i = 0; i < listHandler.Count; i++)
@@ -71,9 +71,9 @@ namespace QFramework.UI {
 		{
 			System.Type type = _handler.GetType();
 			string key = type.ToString();
-			if (mDicNameToUIObject.ContainsKey(key))
+			if (mAllUIBehaviour.ContainsKey(key))
 			{
-				mDicNameToUIObject.Remove(key);
+				mAllUIBehaviour.Remove(key);
 			}
 			//GameObject.Destroy(_handler.gameObject);
 			//            PTResourceManager.UnloadAssetBundle(key.ToLower(), true);
@@ -82,18 +82,18 @@ namespace QFramework.UI {
 
 		public void SetVisible(string behaviourName, bool bVisible)
 		{
-			if (mDicNameToUIObject.ContainsKey(behaviourName))
+			if (mAllUIBehaviour.ContainsKey(behaviourName))
 			{
-				mDicNameToUIObject[behaviourName].SetVisible(bVisible);
+				mAllUIBehaviour[behaviourName].SetVisible(bVisible);
 			}
 		}
 
 		public Transform Get<T>(string strUIName)
 		{
 			string strDlg = typeof(T).ToString();
-			if (mDicNameToUIObject.ContainsKey(strDlg))
+			if (mAllUIBehaviour.ContainsKey(strDlg))
 			{
-				return mDicNameToUIObject[strDlg].Get(strUIName);
+				return mAllUIBehaviour[strDlg].Get(strUIName);
 			}
 			else
 			{
@@ -112,7 +112,7 @@ namespace QFramework.UI {
 			//    }
 			//}
 			mDicMsgs.Clear();
-			mDicNameToUIObject.Clear();
+			mAllUIBehaviour.Clear();
 		}
 			
 
@@ -120,7 +120,6 @@ namespace QFramework.UI {
 		private Transform mParentTrans = null;
 		private Transform mOtherParentTrans = null;
 		private Dictionary<string, List<ushort>> mDicMsgs = new Dictionary<string, List<ushort>>();
-		private Dictionary<string, QUIBehaviour> mDicNameToUIObject = new Dictionary<string,QUIBehaviour>();
 
 		public static QUGUIMgr Instance {
 			get {
@@ -162,6 +161,8 @@ namespace QFramework.UI {
 		[SerializeField] Camera mUICamera;
 
 		public QUIBehaviour CreateUI  (string asd,CanvasLevel level,object uiData = null) {
+
+
 			return null;
 		}
 			

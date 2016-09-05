@@ -424,9 +424,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  mCanvasTopTrans: {fileID: 0}
-  mCanvasMidTrans: {fileID: 0}
-  mCanvasBottomTrans: {fileID: 0}
+  mCanvasTopTrans: {fileID: 22429106}
+  mCanvasMidTrans: {fileID: 22460862}
+  mCanvasBottomTrans: {fileID: 22490276}
   mCanvasTrans: {fileID: 0}
-  mCanvasGuideTrans: {fileID: 0}
-  mUICamera: {fileID: 0}
+  mCanvasGuideTrans: {fileID: 22451834}
+  mUICamera: {fileID: 2096694}

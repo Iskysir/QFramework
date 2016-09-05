@@ -8,7 +8,7 @@ namespace QFramework {
 	public abstract class QMonoBehaviour : MonoBehaviour {
 
 
-		public abstract void ProcessMsg (QMsg tmpMsg);
+		public abstract void ProcessMsg (QMsg msg);
 
 
 		/// <summary>
